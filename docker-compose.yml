@@ -1,0 +1,8 @@
+version: '2.1'
+services:
+  ulearn-gateway-ms:
+    build: .
+    environment:
+      PORT: '5000'
+    ports:
+      - '5000:5000'
