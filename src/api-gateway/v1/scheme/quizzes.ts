@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from "type-graphql";
+import { Field, ID, Int, ObjectType, InputType } from "type-graphql";
 import { type } from "os";
 
 @ObjectType()
@@ -46,6 +46,26 @@ export class Qualification {
     @Field(type => Int)
     user_id!: number
 }
+
+
+@InputType()
+export class QuestionInput{
+    @Field()
+    statement!: string
+
+    @Field()
+    score!: number
+
+    @Field()
+    user_id!: number
+
+    @Field()
+    answers!: [Answer]
+
+    @Field()
+    qualifications!: [Qualification] 
+}
+
 
 
 export interface QuestionApiResponse {

@@ -5,6 +5,7 @@ export const endpoint = {
     },
     quizzes: {
         questions: 'http://172.17.0.1/:7777/api/v1/questions/',
+        question: 'http://172.17.0.1/:7777/api/v1/question/',
         questionById: 'http://172.17.0.1/:7777/api/v1/question/'
     }
 }
