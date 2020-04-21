@@ -7,6 +7,7 @@ import axios from "axios";
 
 import {
     Question,
+    QuestionInput,
     Answer,
     Qualification
 } from "../scheme/quizzes";
@@ -34,10 +35,21 @@ export class QuestionResolver {
     @Query(returns => Question, {nullable: true})
     async SearchQuestion(@Arg("id") userId: number ) : Promise<Question | undefined> {
         try {
-            const data = await axios.get(endpoint.quizzes.questions + userId.toString());
+            const data = await axios.get(endpoint.quizzes.questionById + userId.toString());
             return data.data.body;
         } catch(error) {
             logger.error("Errror SearchQuestion");
+            return error;
+        }
+    }
+
+    @Mutation(returns => Question)
+    async InsertQuestion(@Arg("user") user: QuestionInput) : Promise<Question | undefined> {
+        try {
+            const data = await axios.post(endpoint.quizzes.question, user);
+            return data.data.body;
+        } catch(error) {
+            logger.error("Errror InsertQuestion");
             return error;
         }
     }
