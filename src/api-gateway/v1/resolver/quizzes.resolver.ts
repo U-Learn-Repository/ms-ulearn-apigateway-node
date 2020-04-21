@@ -1,10 +1,16 @@
 import { Arg, FieldResolver, Mutation, Query, Resolver, Root, ID } from "type-graphql";
-import { ProjectData, projects, TaskData, tasks } from "../mocks/data";
+
+import logger from "../../../logger"
+
+import {endpoint} from "../endpoint"
+import axios from "axios";
+
 import {
     Question,
     Answer,
     Qualification
 } from "../scheme/quizzes";
+
 
 @Resolver(of => Question)
 export class QuestionResolver {
@@ -12,5 +18,27 @@ export class QuestionResolver {
     @Query(() => String)
     ping() {
         return "Pong";
+    }
+
+    @Query(returns => [Question], {nullable: true})
+    async SearchQuestions() : Promise<[Question] | undefined> {
+        try {
+            const data = await axios.get(endpoint.quizzes.questions);
+            return data.data.body;
+        } catch(error) {
+            logger.error("Error SearchQuestions")
+            return error;
+        }
+    }
+
+    @Query(returns => Question, {nullable: true})
+    async SearchQuestion(@Arg("id") userId: number ) : Promise<Question | undefined> {
+        try {
+            const data = await axios.get(endpoint.quizzes.questions + userId.toString());
+            return data.data.body;
+        } catch(error) {
+            logger.error("Errror SearchQuestion");
+            return error;
+        }
     }
 }
