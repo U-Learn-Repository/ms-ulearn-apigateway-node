@@ -1,13 +1,12 @@
 import { GraphQLServer, Options } from "graphql-yoga";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { ProjectResolver, TaskResolver, QuestionResolver, CertificadoResolver} from "./api-gateway/v1";
+import { ProjectResolver, TaskResolver, QuestionResolver} from "./api-gateway/v1";
 import { ENDPOINT, PORT } from "./config";
 
 async function bootstrap() {
 	const schema = await buildSchema({
-
-		resolvers: [ProjectResolver, TaskResolver, QuestionResolver, CertificadoResolver],
+		resolvers: [ProjectResolver, TaskResolver, QuestionResolver],
 		emitSchemaFile: true,
 		validate :false,
 	});
