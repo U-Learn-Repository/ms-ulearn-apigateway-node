@@ -1,4 +1,8 @@
-import { Field, Float, ObjectType } from "type-graphql";
+import { Field, Float, ObjectType, ArgsType, Int } from "type-graphql";
+import { Min, ArrayMinSize, Length } from 'class-validator';
+
+//                                                Definicion de objetos
+
 
 @ObjectType()
 export class Chat {
@@ -30,7 +34,53 @@ export class Grupo {
     mensajes?: Chat[];
 }
 
+//                                                Definicion de argumentos
+
+@ArgsType()
+export class GetGrupoArgs {
+  @Field(type => Float)
+  @Min(0)
+  idAutor: number;
+
+  @Field(type => Float, { nullable: true })
+  @Min(0)
+  idGrupo?: number;
+
+  @Field(type => Int, { nullable: true })
+  @Min(0)
+  limit?: number;
+
+  @Field(type => Int, { nullable: true })
+  @Min(0)
+  page?: number;
+}
+
+@ArgsType()
+export class PostGrupoArgs {
+  @Field(type => Float)
+  @Min(0)
+  idAdmin: number;
+
+  @Field(type => [Float])
+  @ArrayMinSize(1)
+  idAutores: [number];
+
+  @Field()
+  @Length(1, 50)
+  titulo: string;
+}
+
+@ArgsType()
+export class PutGrupoArgs  extends PostGrupoArgs{
+  @Field(type => Float)
+  @Min(0)
+  idGrupo: number;
+}
+
+//                                                Definicion de interfaces
+
 export interface ChatApiResponse {
     success: boolean;
-    data: any;
+    data?: any;
+    error?: any;
 }

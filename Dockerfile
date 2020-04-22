@@ -1,4 +1,4 @@
-FROM node:10.16.3-stretch
+FROM node:10-alpine
 
 # Create app directory
 WORKDIR /ms-ulearn-gateway
