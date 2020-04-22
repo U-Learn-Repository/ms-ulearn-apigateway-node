@@ -44,9 +44,9 @@ export class QuestionResolver {
     }
 
     @Mutation(returns => Question)
-    async InsertQuestion(@Arg("user") user: QuestionInput) : Promise<Question | undefined> {
+    async InsertQuestion(@Arg("question") question: QuestionInput) : Promise<QuestionInput | undefined> {
         try {
-            const data = await axios.post(endpoint.quizzes.question, user);
+            const data = await axios.post(endpoint.quizzes.question, question);
             return data.data.body;
         } catch(error) {
             logger.error("Errror InsertQuestion");
