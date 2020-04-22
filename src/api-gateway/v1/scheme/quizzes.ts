@@ -49,7 +49,7 @@ export class Qualification {
 
 
 @InputType()
-export class QuestionInput{
+export class QuestionInput {
     @Field()
     statement!: string
 
@@ -64,13 +64,10 @@ export class QuestionInput{
 @ArgsType()
 export class InsertQuestionArgs {
     @Field()
-    id: string;
-
-    @Field()
     statement: string;
 
     @Field()
-    score: string;
+    score: number;
 }
 
 @ArgsType()
@@ -79,10 +76,7 @@ export class UpdateQuestionArgs {
     id: string;
 
     @Field()
-    statement: string;
-
-    @Field()
-    score: string;
+    question: QuestionInput;
 }
 
 

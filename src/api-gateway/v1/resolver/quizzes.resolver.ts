@@ -43,9 +43,9 @@ export class QuestionResolver {
     }
 
     @Query(returns => Question, {nullable: true})
-    async SearchQuestion(@Arg("id") userId: number ) : Promise<Question | undefined> {
+    async SearchQuestion(@Arg("id") userId: string ) : Promise<Question | undefined> {
         try {
-            const data = await axios.get(endpoint.quizzes.questionById + userId.toString());
+            const data = await axios.get(endpoint.quizzes.questionById + userId);
             return data.data.body;
         } catch(error) {
             logger.error("Errror QuestionResolver.SearchQuestion");
@@ -54,9 +54,12 @@ export class QuestionResolver {
     }
 
     @Mutation(returns => Question)
-    async InsertQuestion(@Args() question: InsertQuestionArgs) : Promise<Question | undefined> {
+    async InsertQuestion(@Args() {statement, score}: InsertQuestionArgs) : Promise<Question | undefined> {
         try {
-            const data = await axios.post(endpoint.quizzes.question, question);
+            const data = await axios.post(endpoint.quizzes.question, {
+                statement: statement,
+                score: score
+            });
 
             if(data.data.status == 200){
                 return data.data.body;
@@ -71,37 +74,39 @@ export class QuestionResolver {
     @Mutation(returns => Question)
     async UpdateQuestion(@Args() args: UpdateQuestionArgs)  : Promise<Question | undefined> {
         try {
-            const url = endpoint.quizzes.question + '/' + args.id
-            let params = args;
-            delete params.id;
+            const url = endpoint.quizzes.question + args.id;
 
-            const data = await axios.put(url, params);
+            const data = await axios.put(url, {
+                statement: args.question.statement,
+                score: args.question.score,
+                user_id: args.question.user_id
+            });
 
             if(data.data.status == 200){
                 return data.data.body;
             }
-            
+
             throw Error("Error QuestionResolver.UpdateQuestion");
         } catch (error) {
             logger.error(error);
-            return undefined;
+            return error;
         }
     } 
 
     @Mutation(returns => Question)
     async DeleteQuestion(@Args() args: DeleteQuestionArgs)  : Promise<Question | undefined> {
         try {
-            const url = endpoint.quizzes.question + '/' + args.id
+            const url = endpoint.quizzes.question + args.id
             const data = await axios.delete(url);
 
-            if(data.data.status == 200){
+            if(data.data){
                 return data.data.body;
             }
             
             throw Error("Error QuestionResolver.DeleteQuestion");
         } catch (error) {
             logger.error(error);
-            return undefined;
+            return error;
         }
     } 
 }
@@ -190,3 +195,29 @@ export class QualificationResolver {
     } 
 
 }
+
+/*
+mutation {
+  InsertQuestion(
+      statement: "Some statement",
+      score: 10
+  ) {
+    statement
+  }
+}
+
+mutation {
+  UpdateQuestion(
+      id: "5ea05dfb878cfee24901ac61",
+  		question: {
+        statement: "Statement updated",
+        score: 11,
+        user_id: 1
+      }    
+  
+  ) {
+    statement
+    score
+  }
+}
+*/
