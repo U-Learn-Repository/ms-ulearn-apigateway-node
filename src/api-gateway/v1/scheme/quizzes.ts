@@ -59,11 +59,6 @@ export class QuestionInput{
     @Field()
     user_id!: number
 
-    @Field()
-    answers!: [Answer]
-
-    @Field()
-    qualifications!: [Qualification] 
 }
 
 
