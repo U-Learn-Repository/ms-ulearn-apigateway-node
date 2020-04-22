@@ -92,7 +92,48 @@ export class DeleteQuestionArgs {
     id: string;
 }
 
+@ArgsType()
+export class InsertAnswerArgs {
+    @Field()
+    context: string;
 
+    @Field()
+    is_correct: boolean;
+}
+
+@ArgsType()
+export class UpdateAnswerArgs {
+    @Field()
+    id: string;
+
+    @Field()
+    context: string;
+
+    @Field()
+    is_correct: boolean;
+}
+
+@ArgsType()
+export class InsertQualificationArgs {
+    @Field()
+    value: number;
+
+    @Field()
+    user_id: number;
+}
+
+
+@ArgsType()
+export class UpdateQualificationArgs {
+    @Field()
+    id: string;
+
+    @Field()
+    value: number;
+
+    @Field()
+    user_id: number;
+}
 
 
 export interface QuestionApiResponse {
