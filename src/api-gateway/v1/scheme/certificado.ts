@@ -18,12 +18,6 @@ export class Certificado {
 
 @InputType()
 export class CertificadoInput{
-  /*  @Field(type => Int)
-    Id!:number;
-
-    @Field()
-    Texto!:string;*/
-
     @Field()
     IdUsuario!: number;
 

@@ -3,7 +3,6 @@ import { Certificado, CertificadoInput } from '../scheme/certificado';
 import { endpoint } from "../endpoint";
 import axios, { AxiosResponse } from "axios";
 import logger from "../../../logger";
-import { UserResolver }  from './registerAndLogin.resolver';
 
 @Resolver(of => Certificado)
 export class CertificadoResolver {
@@ -44,8 +43,10 @@ export class CertificadoResolver {
     async registrarCertificado(@Arg("certificado") certificado: CertificadoInput): Promise<CertificadoInput | undefined>{
     try {
         const usuario = await axios.get(endpoint.users.busqueda + certificado.IdUsuario.toString())
+        const curso = await axios.get(endpoint.courses.listarCursoId + "?cursoid="+ certificado.IdCurso.toString())
+        console.log(curso.data);
         const data = await axios.post(endpoint.certificado.certificadoId + usuario.data.names + "/" + usuario.data.surnames +
-        "/" + usuario.data.idDocumment, certificado)
+        "/" + usuario.data.idDocumment + "/"  + curso.data.nombre + "/" + curso.data.duracion, certificado)
         return data.data
     } catch (error) {
         logger.error(error);
