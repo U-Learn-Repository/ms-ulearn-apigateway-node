@@ -18,6 +18,8 @@ type Grupo {
 }
 
 type Mutation {
+  crearGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!): Grupo!
+  actualizarGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!, idGrupo: Float!): Grupo!
   markAsCompleted(taskId: Float!): Task!
 }
 
@@ -28,10 +30,10 @@ type Project {
 }
 
 type Query {
+  obtenerGrupos(idAutor: Float!, idGrupo: Float, limit: Int, page: Int): [Grupo!]
   projectByName(name: String!): Project
   fetchTasks: [Task!]!
   getTask(id: Float!): Task
-  obtenerGrupos(idGrupo: Float, idAutor: Float!): [Grupo!]
 }
 
 type Task {
