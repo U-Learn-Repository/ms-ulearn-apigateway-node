@@ -17,27 +17,6 @@ type Grupo {
   mensajes: [Chat!]!
 }
 
-type Question {
-  idQuestion: ID!
-  statement: String!
-  score: Int!
-  user_id: Int!
-  answers: [Answer]!
-  qualifications: [Qualification]!
-}
-
-type Answer {
-  idAnswer: ID!
-  content: String!
-  isCorrect: Boolean!
-}
-
-type Qualification {
-  idQualification: ID!
-  value: Int!
-  user_id: Int!
-}
-
 type Mutation {
   markAsCompleted(taskId: Float!): Task!
 }
