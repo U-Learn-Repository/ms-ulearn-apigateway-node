@@ -24,5 +24,9 @@ export const endpoint = {
         updateCurso: 'http://172.17.0.1:6667/curso/update',
         listarCursoId: 'http://172.17.0.1:6667/curso/consultaid',
         deleteCursoId: 'http://172.17.0.1:6667/curso/eliminarcurso'
+    },
+    certificado: {
+        certificadoId: 'http://172.17.0.1:6671/v1/certificado/',
+        certificadoIdUsuario: 'http://172.17.0.1:6671/v1/certificado/?query=id_usuario:',
     }
 }
