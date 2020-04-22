@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType, InputType } from "type-graphql";
+import { Field, ID, Int, ObjectType, InputType, ArgsType } from "type-graphql";
 import { type } from "os";
 
 @ObjectType()
@@ -60,6 +60,38 @@ export class QuestionInput{
     user_id!: number
 
 }
+
+@ArgsType()
+export class InsertQuestionArgs {
+    @Field()
+    id: string;
+
+    @Field()
+    statement: string;
+
+    @Field()
+    score: string;
+}
+
+@ArgsType()
+export class UpdateQuestionArgs {
+    @Field()
+    id: string;
+
+    @Field()
+    statement: string;
+
+    @Field()
+    score: string;
+}
+
+
+@ArgsType()
+export class DeleteQuestionArgs {
+    @Field()
+    id: string;
+}
+
 
 
 
