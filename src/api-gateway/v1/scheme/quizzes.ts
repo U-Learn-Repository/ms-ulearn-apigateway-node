@@ -1,5 +1,9 @@
 import { Field, ID, Int, ObjectType, InputType, ArgsType } from "type-graphql";
-import { type } from "os";
+
+
+/**
+ * Question Scheme
+ */
 
 @ObjectType()
 export class Question {
@@ -23,6 +27,22 @@ export class Question {
     qualifications!: Qualification[]
 }
 
+@InputType()
+export class QuestionInput {
+    @Field()
+    statement!: string
+
+    @Field()
+    score!: number
+
+    @Field()
+    user_id!: number
+}
+
+/**
+ * Answer Scheme
+ */
+
 @ObjectType()
 export class Answer {
     @Field(type => ID)
@@ -34,6 +54,20 @@ export class Answer {
     @Field()
     is_correct!: boolean
 }
+
+@InputType()
+export class AnswerInput {
+    @Field(type => String)
+    context!: string
+
+    @Field()
+    is_correct!: boolean
+}
+
+/**
+ * Qualification Scheme
+ */
+
 
 @ObjectType()
 export class Qualification {
@@ -47,19 +81,19 @@ export class Qualification {
     user_id!: number
 }
 
-
 @InputType()
-export class QuestionInput {
-    @Field()
-    statement!: string
+export class QualificationInput {
+    @Field(type => Int)
+    value!: number
 
-    @Field()
-    score!: number
-
-    @Field()
+    @Field(type => Int)
     user_id!: number
-
 }
+
+
+/**
+ * Insert Args 
+ */
 
 @ArgsType()
 export class InsertQuestionArgs {
@@ -86,13 +120,13 @@ export class DeleteQuestionArgs {
     id: string;
 }
 
+/**
+ * Answer Args
+ */
 @ArgsType()
 export class InsertAnswerArgs {
     @Field()
-    context: string;
-
-    @Field()
-    is_correct: boolean;
+    answer: AnswerInput;
 }
 
 @ArgsType()
@@ -101,19 +135,17 @@ export class UpdateAnswerArgs {
     id: string;
 
     @Field()
-    context: string;
-
-    @Field()
-    is_correct: boolean;
+    answer: AnswerInput;
 }
+
+/**
+ * Qualifications Args
+ */
 
 @ArgsType()
 export class InsertQualificationArgs {
     @Field()
-    value: number;
-
-    @Field()
-    user_id: number;
+    qualification: QualificationInput;
 }
 
 
@@ -123,24 +155,5 @@ export class UpdateQualificationArgs {
     id: string;
 
     @Field()
-    value: number;
-
-    @Field()
-    user_id: number;
-}
-
-
-export interface QuestionApiResponse {
-    success: boolean;
-    data: any;
-}
-
-export interface AnswerApiResponse {
-    success: boolean;
-    data: any;
-}
-
-export interface QualificationApiResponse {
-    success: boolean;
-    data: any;
+    qualification: QualificationInput;
 }

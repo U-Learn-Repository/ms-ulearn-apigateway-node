@@ -7,7 +7,6 @@ import axios from "axios";
 
 import {
     Question,
-    QuestionInput,
     UpdateQuestionArgs,
     DeleteQuestionArgs,
     InsertQuestionArgs,
@@ -117,9 +116,13 @@ export class QuestionResolver {
 export class AnswerResolver {
 
     @Mutation(returns => Answer)
-    async InsertAnswer(@Args() answer: InsertAnswerArgs)  : Promise<Answer | undefined> {
+    async InsertAnswer(@Args() args: InsertAnswerArgs)  : Promise<Answer | undefined> {
         try {
-            const data = await axios.post(endpoint.quizzes.answer, answer);
+            
+            const data = await axios.post(endpoint.quizzes.answer, {
+                context: args.answer.context,
+                is_correct: args.answer.is_correct
+            });
 
             if(data.data.status == 200){
                 return data.data.body;
@@ -135,11 +138,12 @@ export class AnswerResolver {
     @Mutation(returns => Answer)
     async UpdateAnswer(@Args() args: UpdateAnswerArgs)  : Promise<Answer | undefined> {
         try {
-            const url = endpoint.quizzes.answer + '/' + args.id
-            let params = args;
-            delete params.id;
+            const url = endpoint.quizzes.answer + args.id
 
-            const data = await axios.put(url, params);
+            const data = await axios.put(url, {
+                context: args.answer.context,
+                is_correct: args.answer.is_correct
+            });
 
             if(data.data.status == 200){
                 return data.data.body;
@@ -158,9 +162,12 @@ export class QualificationResolver {
 
 
     @Mutation(returns => Qualification)
-    async InsertQualification(@Args() qualification: InsertQualificationArgs)  : Promise<Qualification | undefined> {
+    async InsertQualification(@Args() args: InsertQualificationArgs)  : Promise<Qualification | undefined> {
         try {
-            const data = await axios.post(endpoint.quizzes.qualification, qualification);
+            const data = await axios.post(endpoint.quizzes.qualification, {
+                value: args.qualification.value,
+                user_id: args.qualification.user_id
+            });
 
             if(data.data.status == 200){
                 return data.data.body;
@@ -177,11 +184,12 @@ export class QualificationResolver {
     @Mutation(returns => Qualification)
     async UpdateQualification(@Args() args: UpdateQualificationArgs)  : Promise<Qualification | undefined> {
         try {
-            const url = endpoint.quizzes.qualification + '/' + args.id
-            let params = args;
-            delete params.id;
+            const url = endpoint.quizzes.qualification + args.id;
 
-            const data = await axios.put(url, params);
+            const data = await axios.put(url, {
+                value: args.qualification.value,
+                user_id: args.qualification.user_id
+            });
 
             if(data.data.status == 200){
                 return data.data.body;
