@@ -57,7 +57,7 @@ export class GrupoResolver {
         }
     }
 
-    @Mutation({ nullable: true })
+    @Mutation(returns => Grupo, { nullable: true })
     async eliminarGrupo(@Args() args: DeleteGrupoArgs): Promise<Grupo | undefined> {
         try {
             let dataBody = {
@@ -69,7 +69,7 @@ export class GrupoResolver {
             if (!success) {
                 throw new Error(error);
             }
-            return data;
+            return undefined;
         } catch (error) {
             ErrorHandler.handle(error);
             return undefined;
