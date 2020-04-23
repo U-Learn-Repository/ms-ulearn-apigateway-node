@@ -22,7 +22,7 @@ mutation {
     nombre: "Fwdwwwwasd"
     categoria: "dadada"
     duracion: 22
-    nombreProfesor: "wfwa"
+    idProfesor: 1
   }) {
     nombre,
     duracion
