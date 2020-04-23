@@ -7,6 +7,7 @@ async function bootstrap() {
 	const schema = await buildSchema({
 		resolvers: [__dirname + "/**/*.resolver.{ts,js}"],
 		emitSchemaFile: true,
+		validate :false,
 	});
 	const opts: Options = {
 		port: PORT || 5000,

@@ -3,10 +3,25 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Answer {
+  id: ID!
+  context: String!
+  is_correct: Boolean!
+}
+
 type Chat {
   idAutor: Float!
   idMensaje: Float!
   mensaje: String!
+}
+
+type Credentials {
+  username: String!
+}
+
+input CredentialsInput {
+  username: String!
+  password: String!
 }
 
 type Grupo {
@@ -21,6 +36,12 @@ type Mutation {
   crearGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!): Grupo!
   actualizarGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!, idGrupo: Float!): Grupo!
   markAsCompleted(taskId: Float!): Task!
+  InsertQuestion(question: QuestionInput!): Question!
+  registrarEstudiante(user: UserInput!): User!
+  registrarProfesor(user: UserInput!): User!
+  asginarRolEstudiante(credentials: CredentialsInput!): Credentials!
+  asginarRolProfesor(credentials: CredentialsInput!): Credentials!
+  login(credentials: CredentialsInput!): Credentials!
 }
 
 type Project {
@@ -29,11 +50,37 @@ type Project {
   tasks: [Task!]!
 }
 
+type Qualification {
+  id: ID!
+  value: Int!
+  user_id: Int!
+}
+
 type Query {
   obtenerGrupos(idAutor: Float!, idGrupo: Float, limit: Int, page: Int): [Grupo!]
   projectByName(name: String!): Project
   fetchTasks: [Task!]!
   getTask(id: Float!): Task
+  ping: String!
+  SearchQuestions: [Question!]
+  SearchQuestion(id: Float!): Question
+  buscarUsuario(userId: Float!): User
+  listarUsuarios: [User!]
+}
+
+type Question {
+  id: ID!
+  statement: String!
+  score: Int!
+  user_id: Int!
+  answers: [Answer!]!
+  qualifications: [Qualification!]!
+}
+
+input QuestionInput {
+  statement: String!
+  score: Float!
+  user_id: Float!
 }
 
 type Task {
@@ -41,4 +88,21 @@ type Task {
   title: String!
   project: Project!
   completed: Boolean!
+}
+
+type User {
+  id: Int!
+  names: String!
+  idDocumment: Int!
+  password: String!
+  surnames: String!
+  username: String!
+}
+
+input UserInput {
+  names: String!
+  surnames: String!
+  id_documment: Float!
+  username: String!
+  password: String!
 }
