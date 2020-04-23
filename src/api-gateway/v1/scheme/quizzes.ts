@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType, InputType, ArgsType } from "type-graphql";
+import { ArgsType, Field, ID, InputType, Int, ObjectType } from "type-graphql";
 
 
 /**

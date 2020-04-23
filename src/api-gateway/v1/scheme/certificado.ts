@@ -1,5 +1,4 @@
-import { Field, Int, ObjectType, InputType, ID } from "type-graphql";
-import { type} from "os"
+import { Field, ID, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Certificado {
@@ -17,7 +16,7 @@ export class Certificado {
 }
 
 @InputType()
-export class CertificadoInput{
+export class CertificadoInput {
     @Field()
     IdUsuario!: number;
 

@@ -1,5 +1,4 @@
-import { Field, Int,Float, ObjectType, InputType} from "type-graphql";
-import {Task} from "./project";
+import { Field, Float, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Course {
@@ -39,7 +38,7 @@ export class CourseUpdate {
 }
 
 @ObjectType()
-export class Categoria{
+export class Categoria {
 
     @Field()
     categoria: string;
@@ -47,7 +46,7 @@ export class Categoria{
 
 
 @InputType()
-export class  CategoriaInput{
+export class CategoriaInput {
 
 
     @Field()

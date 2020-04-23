@@ -1,5 +1,4 @@
-import { Field, Int,Float, ObjectType, InputType} from "type-graphql";
-import {Task} from "./project";
+import { Field, Float, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Video {
@@ -34,7 +33,7 @@ export class Video {
 
 
 @InputType()
-export class VideoInput{
+export class VideoInput {
     @Field(type => Int)
     id: number;
 

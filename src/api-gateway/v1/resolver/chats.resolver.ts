@@ -1,71 +1,150 @@
-import { Arg, FieldResolver, Query, Resolver, Root, Mutation } from "type-graphql";
-import { Grupo, Chat, ChatApiResponse } from "../scheme/chats";
-import { endpoint } from "../endpoint";
 import axios from "axios";
-import logger from "../../../logger";
-
-/* @Resolver(of => Chat)
-export class ProjectResolver {
-    @Query(returns => Chat, { nullable: true })
-    projectByName(@Arg("name") name: string): Chat[] | undefined {
-        return projects.find(project => project.name === name);
-    }
-
-    @FieldResolver()
-    tasks(@Root() projectData: ProjectData) {
-        return tasks.filter(task => {
-            return task.project_id === projectData.id;
-        });
-    }
-} */
+import { Args, Mutation, Query, Resolver } from "type-graphql";
+import { endpoint } from "../endpoint";
+import { Chat, ChatApiResponse, DeleteChatArgs, DeleteGrupoArgs, GetChatArgs, GetGrupoArgs, Grupo, PostChatArgs, PostGrupoArgs, PutChatArgs, PutGrupoArgs } from "../scheme/chats";
+import { ErrorHandler } from "./error-handler";
 
 @Resolver(of => Grupo)
 export class GrupoResolver {
     @Query(returns => [Grupo], { nullable: true })
-    async obtenerGrupos(
-        @Arg("idAutor") idAutor: number,
-        @Arg("idGrupo", { nullable: true }) idGrupo?: number
-    ): Promise<Grupo[] | undefined> {
-        const options = {
-            idGrupo: idGrupo,
-            idAutor: idAutor,
-        };
+    async obtenerGrupos(@Args() args: GetGrupoArgs): Promise<Grupo[] | undefined> {
         try {
-            const { data: apiResponse, status } = await axios.get(endpoint.chats.grupo, { params: options });
-            const { data, success } = apiResponse as ChatApiResponse;
-            logger.debug(data);
-            logger.debug(status);
+            const { data: apiResponse } = await axios.get(endpoint.chats.grupo, { params: args });
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
             return data;
         } catch (error) {
-            logger.error(error);
+            ErrorHandler.handle(error);
             return [];
         }
     }
 
-    /* @Query(returns => Task, { nullable: true })
-    getTask(@Arg("id") id: number): TaskData | undefined {
-        return tasks.find(task => task.id === id);
+    @Mutation(returns => Grupo)
+    async crearGrupo(@Args() args: PostGrupoArgs): Promise<Grupo | undefined> {
+        try {
+            const { data: apiResponse } = await axios.post(endpoint.chats.grupo, args);
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return undefined;
+        }
     }
 
-    @Mutation(returns => Task)
-    markAsCompleted(@Arg("taskId") taskId: number): TaskData {
-        const task = tasks.find(task => {
-            return task.id === taskId;
-        });
-        if (!task) {
-            throw new Error(`Couldn't find the task with id ${taskId}`);
+    @Mutation(returns => Grupo)
+    async actualizarGrupo(@Args() args: PutGrupoArgs): Promise<Grupo | undefined> {
+        try {
+            let dataBody = {
+                idAdmin: args.idAdmin,
+                idAutores: args.idAutores,
+                titulo: args.titulo,
+            }
+            const url = endpoint.chats.grupo + '/' + args.idGrupo;
+            const { data: apiResponse } = await axios.put(url, dataBody);
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return undefined;
         }
-        if (task.completed === true) {
-            throw new Error(`Task with id ${taskId} is already completed`);
-        }
-        task.completed = true;
-        return task;
-    } */
+    }
 
-    /* @FieldResolver()
-    project(@Root() chatData: Chat) {
-        return projects.find(project => {
-            return project.id === taskData.project_id;
-        });
-    } */
+    @Mutation(returns => Grupo)
+    async eliminarGrupo(@Args() args: DeleteGrupoArgs): Promise<Grupo | undefined> {
+        try {
+            let dataBody = {
+                idAdmin: args.idAdmin,
+            }
+            const url = endpoint.chats.grupo + '/' + args.idGrupo;
+            const { data: apiResponse } = await axios.delete(url, { data: dataBody });
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return undefined;
+        }
+    }
+}
+
+@Resolver(of => Chat)
+export class ChatResolver {
+    @Query(returns => [Chat], { nullable: true })
+    async obtenerChats(@Args() args: GetChatArgs): Promise<Chat[] | undefined> {
+        try {
+            const { data: apiResponse } = await axios.get(endpoint.chats.chat, { params: args });
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return [];
+        }
+    }
+
+    @Mutation(returns => Chat)
+    async crearChat(@Args() args: PostChatArgs): Promise<Chat | undefined> {
+        try {
+            const { data: apiResponse } = await axios.post(endpoint.chats.chat, args);
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return undefined;
+        }
+    }
+
+    @Mutation(returns => Chat)
+    async actualizarGrupo(@Args() args: PutChatArgs): Promise<Chat | undefined> {
+        try {
+            let dataBody = {
+                idAutor: args.idAutor,
+                mensaje: args.mensaje,
+            };
+            const url = endpoint.chats.chat + '/' + args.idGrupo
+            const { data: apiResponse } = await axios.put(url, dataBody);
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return undefined;
+        }
+    }
+
+    @Mutation(returns => Chat)
+    async eliminarGrupo(@Args() args: DeleteChatArgs): Promise<Chat | undefined> {
+        try {
+            let params = {
+                idAutor: args.idAutor
+            }
+            const url = endpoint.chats.grupo + '/' + args.idGrupo
+            const { data: apiResponse } = await axios.put(url, params);
+            const { data, error, success } = apiResponse as ChatApiResponse;
+            if (!success) {
+                throw new Error(error);
+            }
+            return data;
+        } catch (error) {
+            ErrorHandler.handle(error);
+            return undefined;
+        }
+    }
 }

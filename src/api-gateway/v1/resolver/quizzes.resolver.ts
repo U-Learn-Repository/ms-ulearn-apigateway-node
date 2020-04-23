@@ -1,23 +1,10 @@
-import { Arg, FieldResolver, Mutation, Query, Resolver, Root, ID, Args } from "type-graphql";
-
-import logger from "../../../logger"
-
-import {endpoint} from "../endpoint"
 import axios from "axios";
-
-import {
-    Question,
-    UpdateQuestionArgs,
-    DeleteQuestionArgs,
-    InsertQuestionArgs,
-    Answer,
-    InsertAnswerArgs,
-    UpdateAnswerArgs,
-    Qualification,
-    InsertQualificationArgs,
-    UpdateQualificationArgs
-} from "../scheme/quizzes";
-
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
+import logger from "../../../logger";
+import { endpoint } from "../endpoint";
+import { Answer, DeleteQuestionArgs, InsertAnswerArgs, InsertQualificationArgs, 
+    InsertQuestionArgs, Qualification, Question, UpdateAnswerArgs, UpdateQualificationArgs, 
+    UpdateQuestionArgs } from "../scheme/quizzes";
 
 @Resolver(of => Question)
 export class QuestionResolver {
@@ -27,51 +14,51 @@ export class QuestionResolver {
         return "Pong";
     }
 
-    @Query(returns => [Question], {nullable: true})
-    async SearchQuestions() : Promise<[Question] | undefined> {
+    @Query(returns => [Question], { nullable: true })
+    async SearchQuestions(): Promise<[Question] | undefined> {
         try {
             console.log("inside")
             const data = await axios.get(endpoint.quizzes.questions);
-            console.log("data: ",data);
+            console.log("data: ", data);
 
             return data.data.body;
-        } catch(error) {
+        } catch (error) {
             logger.error("Error QuestionResolver.SearchQuestions")
             return error;
         }
     }
 
-    @Query(returns => Question, {nullable: true})
-    async SearchQuestion(@Arg("id") userId: string ) : Promise<Question | undefined> {
+    @Query(returns => Question, { nullable: true })
+    async SearchQuestion(@Arg("id") userId: string): Promise<Question | undefined> {
         try {
             const data = await axios.get(endpoint.quizzes.questionById + userId);
             return data.data.body;
-        } catch(error) {
+        } catch (error) {
             logger.error("Errror QuestionResolver.SearchQuestion");
             return error;
         }
     }
 
     @Mutation(returns => Question)
-    async InsertQuestion(@Args() {statement, score}: InsertQuestionArgs) : Promise<Question | undefined> {
+    async InsertQuestion(@Args() { statement, score }: InsertQuestionArgs): Promise<Question | undefined> {
         try {
             const data = await axios.post(endpoint.quizzes.question, {
                 statement: statement,
                 score: score
             });
 
-            if(data.data.status == 200){
+            if (data.data.status == 200) {
                 return data.data.body;
             }
             throw Error("Error QuestionResolver.InsertQuestion");
-        } catch(error) {
+        } catch (error) {
             logger.error("Errror QuestionResolver.InsertQuestion");
             return error;
         }
     }
 
     @Mutation(returns => Question)
-    async UpdateQuestion(@Args() args: UpdateQuestionArgs)  : Promise<Question | undefined> {
+    async UpdateQuestion(@Args() args: UpdateQuestionArgs): Promise<Question | undefined> {
         try {
             const url = endpoint.quizzes.question + args.id;
 
@@ -81,7 +68,7 @@ export class QuestionResolver {
                 user_id: args.question.user_id
             });
 
-            if(data.data.status == 200){
+            if (data.data.status == 200) {
                 return data.data.body;
             }
 
@@ -90,24 +77,24 @@ export class QuestionResolver {
             logger.error(error);
             return error;
         }
-    } 
+    }
 
     @Mutation(returns => Question)
-    async DeleteQuestion(@Args() args: DeleteQuestionArgs)  : Promise<Question | undefined> {
+    async DeleteQuestion(@Args() args: DeleteQuestionArgs): Promise<Question | undefined> {
         try {
             const url = endpoint.quizzes.question + args.id
             const data = await axios.delete(url);
 
-            if(data.data){
+            if (data.data) {
                 return data.data.body;
             }
-            
+
             throw Error("Error QuestionResolver.DeleteQuestion");
         } catch (error) {
             logger.error(error);
             return error;
         }
-    } 
+    }
 }
 
 
@@ -116,27 +103,27 @@ export class QuestionResolver {
 export class AnswerResolver {
 
     @Mutation(returns => Answer)
-    async InsertAnswer(@Args() args: InsertAnswerArgs)  : Promise<Answer | undefined> {
+    async InsertAnswer(@Args() args: InsertAnswerArgs): Promise<Answer | undefined> {
         try {
-            
+
             const data = await axios.post(endpoint.quizzes.answer, {
                 context: args.answer.context,
                 is_correct: args.answer.is_correct
             });
 
-            if(data.data.status == 200){
+            if (data.data.status == 200) {
                 return data.data.body;
             }
-            
+
             throw Error("Error AnswerResolver.InsertAnswer");
         } catch (error) {
             logger.error(error);
             return undefined;
         }
-    } 
+    }
 
     @Mutation(returns => Answer)
-    async UpdateAnswer(@Args() args: UpdateAnswerArgs)  : Promise<Answer | undefined> {
+    async UpdateAnswer(@Args() args: UpdateAnswerArgs): Promise<Answer | undefined> {
         try {
             const url = endpoint.quizzes.answer + args.id
 
@@ -145,16 +132,16 @@ export class AnswerResolver {
                 is_correct: args.answer.is_correct
             });
 
-            if(data.data.status == 200){
+            if (data.data.status == 200) {
                 return data.data.body;
             }
-            
+
             throw Error("Error AnswerResolver.UpdateAnswer");
         } catch (error) {
             logger.error(error);
             return undefined;
         }
-    } 
+    }
 }
 
 @Resolver(of => Question)
@@ -162,17 +149,17 @@ export class QualificationResolver {
 
 
     @Mutation(returns => Qualification)
-    async InsertQualification(@Args() args: InsertQualificationArgs)  : Promise<Qualification | undefined> {
+    async InsertQualification(@Args() args: InsertQualificationArgs): Promise<Qualification | undefined> {
         try {
             const data = await axios.post(endpoint.quizzes.qualification, {
                 value: args.qualification.value,
                 user_id: args.qualification.user_id
             });
 
-            if(data.data.status == 200){
+            if (data.data.status == 200) {
                 return data.data.body;
             }
-            
+
             throw Error("Error QualificationResolver.InsertQualification");
         } catch (error) {
             logger.error(error);
@@ -182,7 +169,7 @@ export class QualificationResolver {
 
 
     @Mutation(returns => Qualification)
-    async UpdateQualification(@Args() args: UpdateQualificationArgs)  : Promise<Qualification | undefined> {
+    async UpdateQualification(@Args() args: UpdateQualificationArgs): Promise<Qualification | undefined> {
         try {
             const url = endpoint.quizzes.qualification + args.id;
 
@@ -191,15 +178,15 @@ export class QualificationResolver {
                 user_id: args.qualification.user_id
             });
 
-            if(data.data.status == 200){
+            if (data.data.status == 200) {
                 return data.data.body;
             }
-            
+
             throw Error("Error QualificationResolver.UpdateQualification");
         } catch (error) {
             logger.error(error);
             return undefined;
         }
-    } 
+    }
 
 }
