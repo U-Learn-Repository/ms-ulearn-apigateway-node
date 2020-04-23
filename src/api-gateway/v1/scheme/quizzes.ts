@@ -1,9 +1,5 @@
-import { Field, ID, Int, ObjectType, InputType, ArgsType } from "type-graphql";
-
-
-/**
- * Question Scheme
- */
+import { Field, ID, Int, ObjectType, InputType } from "type-graphql";
+import { type } from "os";
 
 @ObjectType()
 export class Question {
@@ -27,22 +23,6 @@ export class Question {
     qualifications!: Qualification[]
 }
 
-@InputType()
-export class QuestionInput {
-    @Field()
-    statement!: string
-
-    @Field()
-    score!: number
-
-    @Field()
-    user_id!: number
-}
-
-/**
- * Answer Scheme
- */
-
 @ObjectType()
 export class Answer {
     @Field(type => ID)
@@ -54,20 +34,6 @@ export class Answer {
     @Field()
     is_correct!: boolean
 }
-
-@InputType()
-export class AnswerInput {
-    @Field(type => String)
-    context!: string
-
-    @Field()
-    is_correct!: boolean
-}
-
-/**
- * Qualification Scheme
- */
-
 
 @ObjectType()
 export class Qualification {
@@ -81,79 +47,33 @@ export class Qualification {
     user_id!: number
 }
 
+
 @InputType()
-export class QualificationInput {
-    @Field(type => Int)
-    value!: number
+export class QuestionInput{
+    @Field()
+    statement!: string
 
-    @Field(type => Int)
+    @Field()
+    score!: number
+
+    @Field()
     user_id!: number
+
 }
 
 
-/**
- * Insert Args 
- */
 
-@ArgsType()
-export class InsertQuestionArgs {
-    @Field()
-    statement: string;
-
-    @Field()
-    score: number;
+export interface QuestionApiResponse {
+    success: boolean;
+    data: any;
 }
 
-@ArgsType()
-export class UpdateQuestionArgs {
-    @Field()
-    id: string;
-
-    @Field()
-    question: QuestionInput;
+export interface AnswerApiResponse {
+    success: boolean;
+    data: any;
 }
 
-
-@ArgsType()
-export class DeleteQuestionArgs {
-    @Field()
-    id: string;
-}
-
-/**
- * Answer Args
- */
-@ArgsType()
-export class InsertAnswerArgs {
-    @Field()
-    answer: AnswerInput;
-}
-
-@ArgsType()
-export class UpdateAnswerArgs {
-    @Field()
-    id: string;
-
-    @Field()
-    answer: AnswerInput;
-}
-
-/**
- * Qualifications Args
- */
-
-@ArgsType()
-export class InsertQualificationArgs {
-    @Field()
-    qualification: QualificationInput;
-}
-
-
-@ArgsType()
-export class UpdateQualificationArgs {
-    @Field()
-    id: string;
-
-    @Field()
-    qualification: QualificationInput;
+export interface QualificationApiResponse {
+    success: boolean;
+    data: any;
 }
