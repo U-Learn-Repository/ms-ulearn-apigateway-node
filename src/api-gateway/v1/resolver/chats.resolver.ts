@@ -57,7 +57,7 @@ export class GrupoResolver {
         }
     }
 
-    @Mutation(returns => Grupo)
+    @Mutation({ nullable: true })
     async eliminarGrupo(@Args() args: DeleteGrupoArgs): Promise<Grupo | undefined> {
         try {
             let dataBody = {
@@ -110,7 +110,7 @@ export class ChatResolver {
     }
 
     @Mutation(returns => Chat)
-    async actualizarGrupo(@Args() args: PutChatArgs): Promise<Chat | undefined> {
+    async actualizarChat(@Args() args: PutChatArgs): Promise<Chat | undefined> {
         try {
             let dataBody = {
                 idAutor: args.idAutor,
@@ -130,7 +130,7 @@ export class ChatResolver {
     }
 
     @Mutation(returns => Chat)
-    async eliminarGrupo(@Args() args: DeleteChatArgs): Promise<Chat | undefined> {
+    async eliminarChat(@Args() args: DeleteChatArgs): Promise<Chat | undefined> {
         try {
             let params = {
                 idAutor: args.idAutor

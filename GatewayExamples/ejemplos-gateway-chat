@@ -1,0 +1,30 @@
+query {
+  obtenerGrupos(idAutor: 333, idGrupo: 1587476124488, limit: 2) {
+    idGrupo
+    titulo
+    mensajes {
+      idMensaje
+    }
+  }
+}
+
+mutation {
+  crearGrupo(idAutores: [123, 234, 345], idAdmin: 101, titulo: "GraphQL chat group") {
+    idGrupo
+    titulo
+    mensajes {
+      idMensaje
+    }
+  }
+}
+
+
+mutation {
+  actualizarGrupo(idAutores: [123, 234, 345], idAdmin: 101, titulo: "GraphQL chat group modificado", idGrupo: 1587488846221) {
+    idGrupo
+    titulo
+    mensajes {
+      idMensaje
+    }
+  }
+}
