@@ -205,9 +205,24 @@ export class QualificationResolver {
 }
 
 /*
+// Questions
+query {
+    SearchQuestions {
+        statement
+        score
+    }
+}
+
+query {
+    SearchQuestion(id: "5ea06a38878cfee24901b78e") {
+        statement
+        score
+    }
+}
+
 mutation {
   InsertQuestion(
-      statement: "Some statement",
+      statement: "Este es un texto de prueba",
       score: 10
   ) {
     statement
@@ -216,9 +231,9 @@ mutation {
 
 mutation {
   UpdateQuestion(
-      id: "5ea05dfb878cfee24901ac61",
+      id: "5ea06ae1878cfee24901b9c7",
   		question: {
-        statement: "Statement updated",
+        statement: "Esta es una actualizacion",
         score: 11,
         user_id: 1
       }    
@@ -228,4 +243,56 @@ mutation {
     score
   }
 }
+
+mutation {
+  DeleteQuestion(id: "5ea06a38878cfee24901b78e") {
+    statement
+    score
+  }
+}
+
+// Answer
+
+mutation {
+  InsertAnswer(answer: {
+    context: "Algun Texto",
+    is_correct: true
+  }) {
+    context
+    is_correct
+  }
+}
+
+mutation {
+  UpdateAnswer(id: "5ea0ddf006407000f1ea7524", answer: {
+    context: "Algun Texto Actualizado",
+    is_correct: false
+  }) {
+    context
+    is_correct
+  }
+}
+
+// Qualification
+
+mutation {
+  InsertQualification(qualification: {
+    value: 100,
+    user_id: 1
+  }) {
+    value
+    user_id
+  }
+}
+
+mutation {
+  UpdateQualification(id:"5ea0df5e06407000f1ea7525",qualification: {
+    value: 5,
+    user_id: 1
+  }) {
+    value
+    user_id
+  }
+}
+
 */
