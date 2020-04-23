@@ -14,8 +14,26 @@ export class Course {
     @Field(type => Float)
     duracion: number;
 
+    @Field(type => Int)
+    idProfesor: number;
+
+}
+@ObjectType()
+export class CourseUpdate {
+    @Field(type => Int)
+    idCurso: number;
+
     @Field()
-    nombreProfesor: string;
+    nombre: string;
+
+    @Field()
+    categoria: string;
+
+    @Field(type => Float)
+    duracion: number;
+
+    @Field(type => Int)
+    idProfesor: number;
 
 }
 
@@ -36,9 +54,8 @@ export class CategoriaInput {
 }
 
 @InputType()
-export class CourseInput {
-    @Field(type => Int)
-    idCurso: number;
+export class CourseInput{
+
     @Field()
     nombre!: string
 
@@ -49,14 +66,30 @@ export class CourseInput {
     duracion!: number
 
 
-    @Field()
-    nombreProfesor!: string
+    @Field(type => Int)
+    idProfesor!: number;
 
 
 }
 
+@InputType()
+export class CourseUpdateInput{
+    @Field(type => Int)
+    idCurso!: number;
+
+    @Field()
+    nombre!: string
+
+    @Field()
+    categoria!: string
+
+    @Field()
+    duracion!: number
 
 
+    @Field(type => Int)
+    idProfesor!: number;
 
 
+}
 
