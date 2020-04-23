@@ -1,5 +1,5 @@
 import { Arg, FieldResolver, Query, Resolver, Root, Mutation } from "type-graphql";
-import {Course, Categoria, CategoriaInput, CourseInput,CourseUpdateInput} from "../scheme/courses";
+import {Course, Categoria, CategoriaInput, CourseInput} from "../scheme/courses";
 import { endpoint } from "../endpoint";
 import axios from "axios";
 
@@ -58,7 +58,7 @@ export class CourseResolver{
      }
 
      @Mutation(returns => Course)
-     async updateCurso(@Arg("curso") Course: CourseUpdateInput): Promise<CourseUpdateInput | undefined>{
+     async updateCurso(@Arg("curso") Course: CourseInput): Promise<CourseInput | undefined>{
              try {
                  const data = await axios.post(endpoint.courses.updateCurso, Course);
                  //logger.debug(data);
