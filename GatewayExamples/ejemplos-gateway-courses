@@ -19,6 +19,7 @@ query {
 
 mutation {
   crearCurso(curso: {
+    idCurso: 8
     nombre: "Fwdwwwwasd"
     categoria: "dadada"
     duracion: 22
@@ -31,11 +32,11 @@ mutation {
 
 mutation {
   updateCurso(curso: {
-    idCurso:1
+    idCurso:2
     nombre: "Fwdddasd"
     categoria: "dd"
     duracion: 23
-    idProfesor: 2
+    nombreProfesor: "wfxwa"
   }) {
     nombre,
     duracion
