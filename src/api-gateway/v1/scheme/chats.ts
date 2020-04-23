@@ -71,11 +71,61 @@ export class PostGrupoArgs {
 }
 
 @ArgsType()
-export class PutGrupoArgs  extends PostGrupoArgs{
+export class PutGrupoArgs extends PostGrupoArgs{
   @Field(type => Float)
   @Min(0)
   idGrupo: number;
 }
+
+@ArgsType()
+export class DeleteGrupoArgs {
+  @Field(type => Float)
+  @Min(0)
+  idGrupo: number;
+
+  @Field(type => Float)
+  @Min(0)
+  idAdmin: number;
+}
+
+@ArgsType()
+export class ChatArgs{
+  @Field(type => Float)
+  @Min(0)
+  idAutor: number;
+}
+
+@ArgsType()
+export class DeleteChatArgs extends ChatArgs{
+  @Field(type => Float)
+  @Min(0)
+  idAutor: number;
+
+  @Field(type => Float)
+  @Min(0)
+  idGrupo: number;
+}
+
+@ArgsType()
+export class GetChatArgs extends ChatArgs{
+  @Field(type => Int, { nullable: true })
+  @Min(0)
+  limit?: number;
+
+  @Field(type => Int, { nullable: true })
+  @Min(0)
+  page?: number;
+}
+
+@ArgsType()
+export class PostChatArgs extends DeleteChatArgs{
+  @Field()
+  @Length(1, 50)
+  mensaje: string;
+}
+
+@ArgsType()
+export class PutChatArgs extends PostChatArgs{}
 
 //                                                Definicion de interfaces
 
