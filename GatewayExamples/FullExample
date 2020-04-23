@@ -1,0 +1,39 @@
+//Se registra un estudiante "Student1" y se devuelve su nombre de usuario
+mutation{
+  registrarEstudiante( user:{
+    names: "Student1"
+    surnames: "Graphql"
+    id_documment: 123456789
+    username: "graphqlTS"
+    password: "password123"
+
+  }){
+    username
+}
+
+//Se crea un curso "GraphQLCourse" y se devuelve su nombre y duración
+mutation {
+  crearCurso(curso: {
+    idCurso: 1
+    nombre: "GraphQLCourse"
+    categoria: "Test"
+    duracion: 22
+    nombreProfesor: "Test1"
+  }) {
+    nombre,
+    duracion
+  }
+}
+
+//Se registra un certificado para el usuario con el Id=1, que indica que cursó y aprobó el curso con el Id=1
+mutation{
+  registrarCertificado(certificado:{
+    IdUsuario:2,
+    IdCurso:1
+  }){
+    Id
+    Texto
+    IdUsuario
+    IdCurso
+  }
+}
