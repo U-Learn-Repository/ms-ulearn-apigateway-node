@@ -24,6 +24,13 @@ export class GrupoResolver {
     @Mutation(returns => Grupo, { nullable: true })
     async crearGrupo(@Args() args: PostGrupoArgs): Promise<Grupo | undefined> {
         try {
+            args.idAutores.forEach(async idAutor => {
+                const respUser = await axios.get(endpoint.users.busqueda + idAutor);
+            })
+        } catch (error) {
+            return undefined;
+        }
+        try {
             const { data: apiResponse } = await axios.post(endpoint.chats.grupo, args);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
