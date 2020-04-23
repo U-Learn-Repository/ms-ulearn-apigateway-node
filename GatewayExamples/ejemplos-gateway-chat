@@ -9,7 +9,7 @@ query {
 }
 
 mutation {
-  crearGrupo(idAutores: [123, 234, 345], idAdmin: 101, titulo: "GraphQL chat group") {
+  crearGrupo(idAutores: [333, 234, 345], idAdmin: 101, titulo: "GraphQL chat group") {
     idGrupo
     titulo
     mensajes {
@@ -17,7 +17,6 @@ mutation {
     }
   }
 }
-
 
 mutation {
   actualizarGrupo(idAutores: [123, 234, 345], idAdmin: 101, titulo: "GraphQL chat group modificado", idGrupo: 1587488846221) {
@@ -28,3 +27,31 @@ mutation {
     }
   }
 }
+
+mutation {
+  crearChat(idAutor: 333, idGrupo: 1587608012030, mensaje: "Nuevo mensaje") {
+    idAutor
+    idMensaje
+    mensaje
+  }
+}
+
+query {
+  obtenerChats(idAutor: 333 ) {
+    idAutor
+    idMensaje
+    mensaje
+  }
+}
+
+mutation {
+  eliminarGrupo(idAdmin: 101, idGrupo: 1587606378032) {
+    idGrupo
+    titulo
+    mensajes {
+      idMensaje
+    }
+  }
+}
+
+

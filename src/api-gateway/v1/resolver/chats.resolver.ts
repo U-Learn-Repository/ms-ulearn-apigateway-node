@@ -21,7 +21,7 @@ export class GrupoResolver {
         }
     }
 
-    @Mutation(returns => Grupo)
+    @Mutation(returns => Grupo, { nullable: true })
     async crearGrupo(@Args() args: PostGrupoArgs): Promise<Grupo | undefined> {
         try {
             const { data: apiResponse } = await axios.post(endpoint.chats.grupo, args);
@@ -36,7 +36,7 @@ export class GrupoResolver {
         }
     }
 
-    @Mutation(returns => Grupo)
+    @Mutation(returns => Grupo, { nullable: true })
     async actualizarGrupo(@Args() args: PutGrupoArgs): Promise<Grupo | undefined> {
         try {
             let dataBody = {
@@ -94,7 +94,7 @@ export class ChatResolver {
         }
     }
 
-    @Mutation(returns => Chat)
+    @Mutation(returns => Chat, { nullable: true })
     async crearChat(@Args() args: PostChatArgs): Promise<Chat | undefined> {
         try {
             const { data: apiResponse } = await axios.post(endpoint.chats.chat, args);
@@ -109,15 +109,10 @@ export class ChatResolver {
         }
     }
 
-    @Mutation(returns => Chat)
+    @Mutation(returns => Chat, { nullable: true })
     async actualizarChat(@Args() args: PutChatArgs): Promise<Chat | undefined> {
         try {
-            let dataBody = {
-                idAutor: args.idAutor,
-                mensaje: args.mensaje,
-            };
-            const url = endpoint.chats.chat + '/' + args.idGrupo
-            const { data: apiResponse } = await axios.put(url, dataBody);
+            const { data: apiResponse } = await axios.put(endpoint.chats.chat, args);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
                 throw new Error(error);
@@ -129,7 +124,7 @@ export class ChatResolver {
         }
     }
 
-    @Mutation(returns => Chat)
+    @Mutation(returns => Chat, { nullable: true })
     async eliminarChat(@Args() args: DeleteChatArgs): Promise<Chat | undefined> {
         try {
             let params = {
