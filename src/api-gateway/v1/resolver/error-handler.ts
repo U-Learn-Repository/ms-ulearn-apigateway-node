@@ -1,5 +1,5 @@
-import logger from "../../../logger";
 import { AxiosError } from "axios";
+import logger from "../../../logger";
 
 export class ErrorHandler {
     public static handle(error: any) {

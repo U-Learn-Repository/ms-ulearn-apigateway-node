@@ -1,37 +1,37 @@
-import { Field, Float, ObjectType, ArgsType, Int } from "type-graphql";
-import { Min, ArrayMinSize, Length } from 'class-validator';
+import { ArrayMinSize, Length, Min } from 'class-validator';
+import { ArgsType, Field, Float, Int, ObjectType } from "type-graphql";
 
 //                                                Definicion de objetos
 
 
 @ObjectType()
 export class Chat {
-    @Field(type => Float)
-    idAutor!: number;
+  @Field(type => Float)
+  idAutor!: number;
 
-    @Field(type => Float)
-    idMensaje!: number;
+  @Field(type => Float)
+  idMensaje!: number;
 
-    @Field()
-    mensaje?: string;
+  @Field()
+  mensaje?: string;
 }
 
 @ObjectType()
 export class Grupo {
-    @Field(type => Float)
-    idGrupo!: number;
+  @Field(type => Float)
+  idGrupo!: number;
 
-    @Field(type => Float)
-    idAdmin!: number;
+  @Field(type => Float)
+  idAdmin!: number;
 
-    @Field(type => [Float])
-    idAutores!: number[];
+  @Field(type => [Float])
+  idAutores!: number[];
 
-    @Field()
-    titulo!: string;
+  @Field()
+  titulo!: string;
 
-    @Field(type => [Chat])
-    mensajes?: Chat[];
+  @Field(type => [Chat])
+  mensajes?: Chat[];
 }
 
 //                                                Definicion de argumentos
@@ -71,7 +71,7 @@ export class PostGrupoArgs {
 }
 
 @ArgsType()
-export class PutGrupoArgs extends PostGrupoArgs{
+export class PutGrupoArgs extends PostGrupoArgs {
   @Field(type => Float)
   @Min(0)
   idGrupo: number;
@@ -89,14 +89,14 @@ export class DeleteGrupoArgs {
 }
 
 @ArgsType()
-export class ChatArgs{
+export class ChatArgs {
   @Field(type => Float)
   @Min(0)
   idAutor: number;
 }
 
 @ArgsType()
-export class DeleteChatArgs extends ChatArgs{
+export class DeleteChatArgs extends ChatArgs {
   @Field(type => Float)
   @Min(0)
   idAutor: number;
@@ -107,7 +107,7 @@ export class DeleteChatArgs extends ChatArgs{
 }
 
 @ArgsType()
-export class GetChatArgs extends ChatArgs{
+export class GetChatArgs extends ChatArgs {
   @Field(type => Int, { nullable: true })
   @Min(0)
   limit?: number;
@@ -118,19 +118,19 @@ export class GetChatArgs extends ChatArgs{
 }
 
 @ArgsType()
-export class PostChatArgs extends DeleteChatArgs{
+export class PostChatArgs extends DeleteChatArgs {
   @Field()
   @Length(1, 50)
   mensaje: string;
 }
 
 @ArgsType()
-export class PutChatArgs extends PostChatArgs{}
+export class PutChatArgs extends PostChatArgs { }
 
 //                                                Definicion de interfaces
 
 export interface ChatApiResponse {
-    success: boolean;
-    data?: any;
-    error?: any;
+  success: boolean;
+  data?: any;
+  error?: any;
 }

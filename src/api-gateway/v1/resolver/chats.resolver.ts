@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Args, Mutation, Query, Resolver } from "type-graphql";
 import { endpoint } from "../endpoint";
-import { Chat, ChatApiResponse, DeleteChatArgs, DeleteGrupoArgs, GetChatArgs, GetGrupoArgs, Grupo, PostGrupoArgs, PutChatArgs, PutGrupoArgs, PostChatArgs } from "../scheme/chats";
+import { Chat, ChatApiResponse, DeleteChatArgs, DeleteGrupoArgs, GetChatArgs, GetGrupoArgs, Grupo, PostChatArgs, PostGrupoArgs, PutChatArgs, PutGrupoArgs } from "../scheme/chats";
 import { ErrorHandler } from "./error-handler";
 
 @Resolver(of => Grupo)
