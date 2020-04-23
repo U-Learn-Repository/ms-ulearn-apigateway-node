@@ -1,5 +1,4 @@
-import { Field, Int, ObjectType, InputType} from "type-graphql";
-import {Task} from "./project";
+import { Field, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class User {
@@ -23,14 +22,14 @@ export class User {
 }
 
 @ObjectType()
-export class Credentials{
+export class Credentials {
 
     @Field()
     username: string;
 }
 
 @InputType()
-export class CredentialsInput{
+export class CredentialsInput {
 
     @Field()
     username: string;
@@ -40,7 +39,7 @@ export class CredentialsInput{
 }
 
 @InputType()
-export class UserInput{
+export class UserInput {
     @Field()
     names!: string
 

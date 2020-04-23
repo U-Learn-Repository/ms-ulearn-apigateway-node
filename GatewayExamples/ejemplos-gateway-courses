@@ -1,0 +1,48 @@
+query {
+  buscarCursoID(courseId:1) {
+    nombre
+  }
+}
+query {
+  listarCursos {
+    nombre
+  }
+}
+
+query {
+  listarCursosCategoria(categoria: {
+    categoria: "DAD"
+  }) {
+    nombre
+  }
+}
+
+mutation {
+  crearCurso(curso: {
+    idCurso: 8
+    nombre: "Fwdwwwwasd"
+    categoria: "dadada"
+    duracion: 22
+    nombreProfesor: "wfwa"
+  }) {
+    nombre,
+    duracion
+  }
+}
+
+mutation {
+  updateCurso(curso: {
+    idCurso:2
+    nombre: "Fwdddasd"
+    categoria: "dd"
+    duracion: 23
+    nombreProfesor: "wfxwa"
+  }) {
+    nombre,
+    duracion
+  }
+}
+
+mutation {
+  deleteCurso(idCurso:2)
+}

@@ -1,0 +1,31 @@
+query {
+  listarVideos {
+    id,
+    id_curso,
+    id_capitulo,
+    id_tema,
+    calificacion,
+    archivo,
+    descripcion,
+    created_at,
+    updated_at
+  }
+}
+
+query {
+  buscarVideoID(id:1) {
+    id,
+    id_curso,
+    id_capitulo,
+    id_tema,
+    calificacion,
+    archivo,
+    descripcion,
+    created_at,
+    updated_at
+  }
+}
+
+mutation {
+  eliminarVideoID(id:1)
+}
