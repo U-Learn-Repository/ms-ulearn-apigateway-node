@@ -1,37 +1,40 @@
+// const DEFAULT_URL = 'http://172.17.0.1';
+const DEFAULT_URL = 'http://localhost';
+
 export const endpoint = {
     chats: {
-        grupo: 'http://172.17.0.1:6663/api/v1/grupo',
-        chat: 'http://172.17.0.1:6663/api/v1/chat',
+        grupo: DEFAULT_URL + ':3001/api/v1/grupo',
+        chat: DEFAULT_URL + ':3001/api/v1/chat',
     },
     quizzes: {
-        questions: 'http://172.17.0.1:7777/api/v1/questions/',
-        question: 'http://172.17.0.1:7777/api/v1/question/',
-        questionById: 'http://172.17.0.1:7777/api/v1/question/',
-        answer: 'http://172.17.0.1:7777/api/v1/answer/',
-        qualification: 'http://172.17.0.1:7777/api/v1/qualification/'
+        questions: DEFAULT_URL + ':7777/api/v1/questions/',
+        question: DEFAULT_URL + ':7777/api/v1/question/',
+        questionById: DEFAULT_URL + ':7777/api/v1/question/',
+        answer: DEFAULT_URL + ':7777/api/v1/answer/',
+        qualification: DEFAULT_URL + ':7777/api/v1/qualification/'
     },
     users: {
-        busqueda: 'http://172.17.0.1:6665/buscarUsuario/',
-        lista: 'http://172.17.0.1:6665/usuarios',
-        login: 'http://172.17.0.1:6665/login',
-        registroEstudiante: 'http://172.17.0.1:6665/registro/nuevo-usuario/rol/1',
-        registroProfesor: 'http://172.17.0.1:6665/registro/nuevo-usuario/rol/2',
-        registroNuevoRolEstudiante: 'http://172.17.0.1:6665/registro/usuario/rol/1',
-        registroNuevoRolProfesor: 'http://172.17.0.1:6665/registro/usuario/rol/2'
+        busqueda: DEFAULT_URL + ':6665/buscarUsuario/',
+        lista: DEFAULT_URL + ':6665/usuarios',
+        login: DEFAULT_URL + ':6665/login',
+        registroEstudiante: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/1',
+        registroProfesor: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/2',
+        registroNuevoRolEstudiante: DEFAULT_URL + ':6665/registro/usuario/rol/1',
+        registroNuevoRolProfesor: DEFAULT_URL + ':6665/registro/usuario/rol/2'
     },
     courses: {
-        createCurso: 'http://172.17.0.1:6667/curso/registro',
-        listarCursos: 'http://172.17.0.1:6667/curso/consulta/',
-        listarCrusosByCategoria: 'http://172.17.0.1:6667/curso/consultacategoria/',
-        updateCurso: 'http://172.17.0.1:6667/curso/update',
-        listarCursoId: 'http://172.17.0.1:6667/curso/consultaid',
-        deleteCursoId: 'http://172.17.0.1:6667/curso/eliminarcurso'
+        createCurso: DEFAULT_URL + ':6667/curso/registro',
+        listarCursos: DEFAULT_URL + ':6667/curso/consulta/',
+        listarCrusosByCategoria: DEFAULT_URL + ':6667/curso/consultacategoria/',
+        updateCurso: DEFAULT_URL + ':6667/curso/update',
+        listarCursoId: DEFAULT_URL + ':6667/curso/consultaid',
+        deleteCursoId: DEFAULT_URL + ':6667/curso/eliminarcurso'
     },
     certificado: {
-        certificadoId: 'http://172.17.0.1:6671/v1/certificado/',
-        certificadoIdUsuario: 'http://172.17.0.1:6671/v1/certificado/?query=id_usuario:',
+        certificadoId: DEFAULT_URL + ':6671/v1/certificado/',
+        certificadoIdUsuario: DEFAULT_URL + ':6671/v1/certificado/?query=id_usuario:',
     },
     videos: {
-        listarVideos: 'http://172.17.0.1:6673/api/v1/video/'
+        listarVideos: DEFAULT_URL + ':6673/api/v1/video/'
     }
 }

@@ -1,6 +1,3 @@
-import { Arg, FieldResolver, Query, Resolver, Root, Mutation } from "type-graphql";
-import {Course, Categoria, CategoriaInput, CourseInput,CourseUpdateInput} from "../scheme/courses";
-import { endpoint } from "../endpoint";
 import axios from "axios";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import logger from "../../../logger";
@@ -80,28 +77,6 @@ export class CourseResolver {
         } catch (error) {
             logger.error(error);
             return error;
- }}
-     @Mutation(returns => Course)
-     async updateCurso(@Arg("curso") Course: CourseUpdateInput): Promise<CourseUpdateInput | undefined>{
-             try {
-                 const data = await axios.post(endpoint.courses.updateCurso, Course);
-                 //logger.debug(data);
-                 return Course;
-             } catch (error){
-                 logger.error(error);
-                 return error;
-             }
-      }
-      @Mutation(returns => String, {nullable: true})
-      async deleteCurso( @Arg("idCurso") idCurso: number ): Promise<String | undefined> {
-          try {
-              const data = await axios.delete(endpoint.courses.deleteCursoId + "?cursoid="+idCurso.toString());
-              //logger.debug(data);
-              return data.data;
-          } catch (error) {
-              logger.error(error);
-              return error;
-  
-          }
-      }
+        }
+    }
 }

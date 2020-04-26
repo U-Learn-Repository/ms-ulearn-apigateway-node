@@ -9,10 +9,73 @@ type Answer {
   is_correct: Boolean!
 }
 
+input AnswerInput {
+  context: String!
+  is_correct: Boolean!
+}
+
+type Categoria {
+  categoria: String!
+}
+
+input CategoriaInput {
+  categoria: String!
+}
+
+type Certificado {
+  Id: ID!
+  Texto: String!
+  IdUsuario: Int!
+  IdCurso: Int!
+}
+
+input CertificadoInput {
+  IdUsuario: Float!
+  IdCurso: Float!
+}
+
 type Chat {
   idAutor: Float!
   idMensaje: Float!
   mensaje: String!
+  nombreAutor: String!
+}
+
+type ChatMsj {
+  autor: String!
+  mensaje: String!
+  fecha: DateTime!
+}
+
+type Course {
+  idCurso: Int!
+  nombre: String!
+  categoria: String!
+  duracion: Float!
+  idProfesor: Int!
+}
+
+input CourseInput {
+  nombre: String!
+  categoria: String!
+  duracion: Float!
+  idProfesor: Int!
+}
+
+type CourseUpdate {
+  idCurso: Int!
+  nombre: String!
+  categoria: String!
+  duracion: Float!
+  idProfesor: Int!
+}
+
+input CourseUpdateInput {
+  idCurso: Int!
+  nombre: String!
+  categoria: String!
+  duracion: Float!
+  idProfesor: Int!
 }
 
 type Credentials {
@@ -24,6 +87,11 @@ input CredentialsInput {
   password: String!
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 type Grupo {
   idGrupo: Float!
   idAdmin: Float!
@@ -33,15 +101,30 @@ type Grupo {
 }
 
 type Mutation {
-  crearGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!): Grupo!
-  actualizarGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!, idGrupo: Float!): Grupo!
+  registrarCertificado(certificado: CertificadoInput!): Certificado!
+  crearGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!): Grupo
+  actualizarGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!, idGrupo: Float!): Grupo
+  eliminarGrupo(idGrupo: Float!, idAdmin: Float!): Grupo
+  crearChat(idAutor: Float!, idGrupo: Float!, mensaje: String!): Chat
+  actualizarChat(mensaje: String!, idAutor: Float!, idGrupo: Float!): Chat
+  eliminarChat(idAutor: Float!, idGrupo: Float!): Chat
+  crearCurso(curso: CourseInput!): Course!
+  updateCurso(curso: CourseInput!): Course!
+  deleteCurso(idCurso: Float!): String
   markAsCompleted(taskId: Float!): Task!
-  InsertQuestion(question: QuestionInput!): Question!
+  InsertQuestion(statement: String!, score: Float!): Question!
+  UpdateQuestion(id: String!, question: QuestionInput!): Question!
+  DeleteQuestion(id: String!): Question!
+  InsertAnswer(answer: AnswerInput!): Answer!
+  UpdateAnswer(id: String!, answer: AnswerInput!): Answer!
+  InsertQualification(qualification: QualificationInput!): Qualification!
+  UpdateQualification(id: String!, qualification: QualificationInput!): Qualification!
   registrarEstudiante(user: UserInput!): User!
   registrarProfesor(user: UserInput!): User!
   asginarRolEstudiante(credentials: CredentialsInput!): Credentials!
   asginarRolProfesor(credentials: CredentialsInput!): Credentials!
   login(credentials: CredentialsInput!): Credentials!
+  eliminarVideoID(id: Float!): String
 }
 
 type Project {
@@ -56,16 +139,30 @@ type Qualification {
   user_id: Int!
 }
 
+input QualificationInput {
+  value: Int!
+  user_id: Int!
+}
+
 type Query {
+  obtenerCertificadosByID(Id: Float!): Certificado
+  CertificadosByUser(IdUsuario: Float!): [Certificado!]
+  obtenerCertificados: [Certificado!]
   obtenerGrupos(idAutor: Float!, idGrupo: Float, limit: Int, page: Int): [Grupo!]
+  obtenerChats(idAutor: Float!, limit: Int, page: Int): [Chat!]
+  listarCursos: [Course!]
+  listarCursosCategoria(categoria: CategoriaInput!): [Course!]!
+  buscarCursoID(courseId: Float!): Course
   projectByName(name: String!): Project
   fetchTasks: [Task!]!
   getTask(id: Float!): Task
   ping: String!
   SearchQuestions: [Question!]
-  SearchQuestion(id: Float!): Question
+  SearchQuestion(id: String!): Question
   buscarUsuario(userId: Float!): User
   listarUsuarios: [User!]
+  listarVideos: [Video!]
+  buscarVideoID(id: Float!): Video
 }
 
 type Question {
@@ -81,6 +178,10 @@ input QuestionInput {
   statement: String!
   score: Float!
   user_id: Float!
+}
+
+type Subscription {
+  mensajesChat: ChatMsj!
 }
 
 type Task {
@@ -105,4 +206,28 @@ input UserInput {
   id_documment: Float!
   username: String!
   password: String!
+}
+
+type Video {
+  id: Int!
+  id_curso: Int!
+  id_capitulo: Int!
+  id_tema: Int!
+  archivo: String!
+  descripcion: String!
+  calificacion: Float!
+  created_at: String!
+  updated_at: String!
+}
+
+input VideoInput {
+  id: Int!
+  id_curso: Int!
+  id_capitulo: Int!
+  id_tema: Int!
+  archivo: String!
+  descripcion: String!
+  calificacion: Float!
+  created_at: String!
+  updated_at: String!
 }
