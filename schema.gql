@@ -111,7 +111,6 @@ type Mutation {
   crearCurso(curso: CourseInput!): Course!
   updateCurso(curso: CourseInput!): Course!
   deleteCurso(idCurso: Float!): String
-  markAsCompleted(taskId: Float!): Task!
   InsertQuestion(statement: String!, score: Float!): Question!
   UpdateQuestion(id: String!, question: QuestionInput!): Question!
   DeleteQuestion(id: String!): Question!
@@ -125,12 +124,6 @@ type Mutation {
   asginarRolProfesor(credentials: CredentialsInput!): Credentials!
   login(credentials: CredentialsInput!): Credentials!
   eliminarVideoID(id: Float!): String
-}
-
-type Project {
-  id: Int!
-  name: String!
-  tasks: [Task!]!
 }
 
 type Qualification {
@@ -153,9 +146,6 @@ type Query {
   listarCursos: [Course!]
   listarCursosCategoria(categoria: CategoriaInput!): [Course!]!
   buscarCursoID(courseId: Float!): Course
-  projectByName(name: String!): Project
-  fetchTasks: [Task!]!
-  getTask(id: Float!): Task
   ping: String!
   SearchQuestions: [Question!]
   SearchQuestion(id: String!): Question
@@ -182,13 +172,6 @@ input QuestionInput {
 
 type Subscription {
   mensajesChat: ChatMsj!
-}
-
-type Task {
-  id: Int!
-  title: String!
-  project: Project!
-  completed: Boolean!
 }
 
 type User {
