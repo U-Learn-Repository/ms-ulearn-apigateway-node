@@ -28,6 +28,15 @@ export class Credentials {
     username: string;
 }
 
+@ObjectType()
+export class Role {
+    @Field()
+    id: number;
+
+    @Field()
+    roleName: string;
+}
+
 @InputType()
 export class CredentialsInput {
 

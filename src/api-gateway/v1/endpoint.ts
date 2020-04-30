@@ -17,7 +17,8 @@ export const endpoint = {
         registroEstudiante: 'http://172.17.0.1:6665/registro/nuevo-usuario/rol/1',
         registroProfesor: 'http://172.17.0.1:6665/registro/nuevo-usuario/rol/2',
         registroNuevoRolEstudiante: 'http://172.17.0.1:6665/registro/usuario/rol/1',
-        registroNuevoRolProfesor: 'http://172.17.0.1:6665/registro/usuario/rol/2'
+        registroNuevoRolProfesor: 'http://172.17.0.1:6665/registro/usuario/rol/2',
+        rolPorId: 'http://172.17.0.1:6665/rolPorId/'
     },
     courses: {
         createCurso: 'http://172.17.0.1:6667/curso/registro',
