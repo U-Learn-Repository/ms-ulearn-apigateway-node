@@ -4,11 +4,11 @@ export const endpoint = {
         chat: 'http://172.17.0.1:6663/api/v1/chat',
     },
     quizzes: {
-        questions: 'http://172.17.0.1:7777/api/v1/questions/',
-        question: 'http://172.17.0.1:7777/api/v1/question/',
-        questionById: 'http://172.17.0.1:7777/api/v1/question/',
-        answer: 'http://172.17.0.1:7777/api/v1/answer/',
-        qualification: 'http://172.17.0.1:7777/api/v1/qualification/'
+        questions: 'http://54.162.189.86:7777/api/v1/questions/',
+        question: 'http://54.162.189.86:7777/api/v1/question/',
+        questionById: 'http://54.162.189.86:7777/api/v1/question/',
+        answer: 'http://54.162.189.86:7777/api/v1/answer/',
+        qualification: 'http://54.162.189.86:7777/api/v1/qualification/'
     },
     users: {
         busqueda: 'http://172.17.0.1:6665/buscarUsuario/',
