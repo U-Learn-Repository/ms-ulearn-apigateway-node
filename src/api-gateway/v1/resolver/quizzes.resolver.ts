@@ -38,6 +38,13 @@ export class QuestionResolver {
     async SearchQuestion(@Arg("id") userId: string): Promise<Question | undefined> {
         try {
             const data = await axios.get(endpoint.quizzes.questionById + userId);
+
+            for(let ans of data.data.body.answers) {
+                if(!ans.is_correct) {
+                    ans.is_correct = false;
+                }
+            }
+
             return data.data.body;
         } catch (error) {
             logger.error("Errror QuestionResolver.SearchQuestion");
