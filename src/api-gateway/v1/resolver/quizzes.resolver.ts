@@ -17,9 +17,15 @@ export class QuestionResolver {
     @Query(returns => [Question], { nullable: true })
     async SearchQuestions(): Promise<[Question] | undefined> {
         try {
-            console.log("inside")
             const data = await axios.get(endpoint.quizzes.questions);
-            console.log("data: ", data);
+
+            for(let quest of data.data.body) {
+                for(let ans of quest.answers) {
+                    if(!ans.is_correct) {
+                        ans.is_correct = false;
+                    }
+                }
+            }
 
             return data.data.body;
         } catch (error) {
