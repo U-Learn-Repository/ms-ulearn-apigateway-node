@@ -45,8 +45,8 @@ export class QuestionInput {
 
 @ObjectType()
 export class Answer {
-    @Field(type => ID)
-    id!: number
+    @Field(type => String)
+    id!: string
 
     @Field(type => String)
     context!: string

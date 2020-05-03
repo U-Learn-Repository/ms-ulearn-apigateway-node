@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type Answer {
-  id: ID!
+  id: String!
   context: String!
   is_correct: Boolean!
 }
