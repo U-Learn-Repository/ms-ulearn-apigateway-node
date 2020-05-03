@@ -16,46 +16,16 @@ export class Course {
 
     @Field(type => Int)
     idProfesor: number;
-
-}
-@ObjectType()
-export class CourseUpdate {
-    @Field(type => Int)
-    idCurso: number;
-
-    @Field()
-    nombre: string;
-
-    @Field()
-    categoria: string;
-
-    @Field(type => Float)
-    duracion: number;
-
-    @Field(type => Int)
-    idProfesor: number;
-
 }
 
 @ObjectType()
 export class Categoria {
-
-    @Field()
-    categoria: string;
-}
-
-
-@InputType()
-export class CategoriaInput {
-
-
     @Field()
     categoria: string;
 }
 
 @InputType()
-export class CourseInput{
-
+export class CourseInput {
     @Field()
     nombre!: string
 
@@ -65,31 +35,30 @@ export class CourseInput{
     @Field()
     duracion!: number
 
-
     @Field(type => Int)
     idProfesor!: number;
-
-
 }
 
-@InputType()
-export class CourseUpdateInput{
+@ObjectType()
+export class Inscripcion {
+    @Field(type => Int)
+    idCurso: number;
+
+    @Field(type => Float)
+    idEstudiante: number;
+
+    @Field()
+    calificacion: string;
+}
+
+@ObjectType()
+export class GetInscripcionArgs {
     @Field(type => Int)
     idCurso!: number;
-
-    @Field()
-    nombre!: string
-
-    @Field()
-    categoria!: string
-
-    @Field()
-    duracion!: number
-
-
-    @Field(type => Int)
-    idProfesor!: number;
-
-
+    
+    @Field(type => Float)
+    idEstudiante!: number;
 }
 
+@ObjectType()
+export class InscripcionArgs extends Inscripcion {}
