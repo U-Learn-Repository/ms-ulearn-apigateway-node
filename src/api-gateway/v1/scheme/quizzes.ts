@@ -8,8 +8,8 @@ import { ArgsType, Field, ID, InputType, Int, ObjectType } from "type-graphql";
 @ObjectType()
 export class Question {
 
-    @Field(type => ID)
-    id!: number
+    @Field(type => String)
+    id!: string
 
     @Field(type => String)
     statement!: string
@@ -45,8 +45,8 @@ export class QuestionInput {
 
 @ObjectType()
 export class Answer {
-    @Field(type => ID)
-    id!: number
+    @Field(type => String)
+    id!: string
 
     @Field(type => String)
     context!: string

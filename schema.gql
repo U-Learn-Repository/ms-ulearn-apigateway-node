@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type Answer {
-  id: ID!
+  id: String!
   context: String!
   is_correct: Boolean!
 }
@@ -155,7 +155,7 @@ type Query {
 }
 
 type Question {
-  id: ID!
+  id: String!
   statement: String!
   score: Int!
   user_id: Int!
