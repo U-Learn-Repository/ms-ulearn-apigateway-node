@@ -138,6 +138,7 @@ export class AnswerResolver {
             });
 
             if (data.data.status == 200) {
+                data.data.body.id = data.data.body._id;
                 return data.data.body;
             }
 
