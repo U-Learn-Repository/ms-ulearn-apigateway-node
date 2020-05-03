@@ -100,7 +100,7 @@ type Mutation {
   updateCurso(curso: CourseUpdateInput!): Course!
   deleteCurso(idCurso: Float!): String
   markAsCompleted(taskId: Float!): Task!
-  InsertQuestion(statement: String!, score: Float!): Question!
+  InsertQuestion(statement: String!, score: Int!, user_id: Int!, answers: [String!]!, qualification: [String!]!): Question!
   UpdateQuestion(id: String!, question: QuestionInput!): Question!
   DeleteQuestion(id: String!): Question!
   InsertAnswer(answer: AnswerInput!): Answer!
