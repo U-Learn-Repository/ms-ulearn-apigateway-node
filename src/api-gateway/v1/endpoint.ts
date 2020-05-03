@@ -1,5 +1,4 @@
-// const DEFAULT_URL = 'http://172.17.0.1';
-const DEFAULT_URL = 'http://localhost';
+const DEFAULT_URL = 'http://172.17.0.1';
 
 export const endpoint = {
     chats: {
@@ -20,7 +19,8 @@ export const endpoint = {
         registroEstudiante: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/1',
         registroProfesor: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/2',
         registroNuevoRolEstudiante: DEFAULT_URL + ':6665/registro/usuario/rol/1',
-        registroNuevoRolProfesor: DEFAULT_URL + ':6665/registro/usuario/rol/2'
+        registroNuevoRolProfesor: DEFAULT_URL + ':6665/registro/usuario/rol/2',
+        rolPorId: DEFAULT_URL + ':6665/rolPorId/'
     },
     courses: {
         createCurso: DEFAULT_URL + ':6667/curso/registro',
@@ -28,7 +28,8 @@ export const endpoint = {
         listarCrusosByCategoria: DEFAULT_URL + ':6667/curso/consultacategoria/',
         updateCurso: DEFAULT_URL + ':6667/curso/update',
         listarCursoId: DEFAULT_URL + ':6667/curso/consultaid',
-        deleteCursoId: DEFAULT_URL + ':6667/curso/eliminarcurso'
+        deleteCursoId: DEFAULT_URL + ':6667/curso/eliminarcurso',
+        inscripcion: DEFAULT_URL + ':6667/inscripcion',
     },
     certificado: {
         certificadoId: DEFAULT_URL + ':6671/v1/certificado/',

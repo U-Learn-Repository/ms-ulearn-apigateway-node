@@ -2,7 +2,7 @@ import axios from "axios";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
-import { Credentials, CredentialsInput, User, UserInput } from "../scheme/registerAndLogin";
+import {Credentials, CredentialsInput, Role, User, UserInput} from "../scheme/registerAndLogin";
 
 
 @Resolver(of => User)
@@ -27,6 +27,17 @@ export class UserResolver {
             //logger.debug(data);
             return data.data;
         } catch (error) {
+            logger.error(error);
+            return error;
+        }
+    }
+
+    @Query(returns => [Role], {nullable: true})
+    async obtenerRolPorId(@Arg("userId") userId: number): Promise<Role | undefined>{
+        try{
+            const data = await axios.get((endpoint.users.rolPorId + userId.toString()));
+            return data.data;
+        }catch(error){
             logger.error(error);
             return error;
         }

@@ -17,9 +17,17 @@ export class QuestionResolver {
     @Query(returns => [Question], { nullable: true })
     async SearchQuestions(): Promise<[Question] | undefined> {
         try {
-            console.log("inside")
             const data = await axios.get(endpoint.quizzes.questions);
-            console.log("data: ", data);
+            var index = 0;
+            for(let quest of data.data.body) {
+                for(let ans of quest.answers) {
+                    if(!ans.is_correct) {
+                        ans.is_correct = false;
+                    }
+                }
+                data.data.body[index].id = data.data.body[index]._id;
+                index++;
+            }
 
             return data.data.body;
         } catch (error) {
@@ -32,6 +40,24 @@ export class QuestionResolver {
     async SearchQuestion(@Arg("id") userId: string): Promise<Question | undefined> {
         try {
             const data = await axios.get(endpoint.quizzes.questionById + userId);
+
+            for(let ans of data.data.body.answers) {
+                if(!ans.is_correct) {
+                    ans.is_correct = false;
+                }
+            }
+
+            if(data.data.body) {
+                let ans = new Question()
+                ans.id = data.data.body._id;
+                ans.statement = data.data.body.statement;
+                ans.score = data.data.body.score;
+                ans.user_id = data.data.body.user_id;
+                ans.answers = data.data.body.answers;
+                ans.qualifications = data.data.body.qualifications;
+                return ans;
+            }
+
             return data.data.body;
         } catch (error) {
             logger.error("Errror QuestionResolver.SearchQuestion");

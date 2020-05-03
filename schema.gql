@@ -38,13 +38,6 @@ type Chat {
   idAutor: Float!
   idMensaje: Float!
   mensaje: String!
-  nombreAutor: String!
-}
-
-type ChatMsj {
-  autor: String!
-  mensaje: String!
-  fecha: DateTime!
 }
 
 type Course {
@@ -87,11 +80,6 @@ input CredentialsInput {
   password: String!
 }
 
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime
-
 type Grupo {
   idGrupo: Float!
   idAdmin: Float!
@@ -109,8 +97,9 @@ type Mutation {
   actualizarChat(mensaje: String!, idAutor: Float!, idGrupo: Float!): Chat
   eliminarChat(idAutor: Float!, idGrupo: Float!): Chat
   crearCurso(curso: CourseInput!): Course!
-  updateCurso(curso: CourseInput!): Course!
+  updateCurso(curso: CourseUpdateInput!): Course!
   deleteCurso(idCurso: Float!): String
+  markAsCompleted(taskId: Float!): Task!
   InsertQuestion(statement: String!, score: Float!): Question!
   UpdateQuestion(id: String!, question: QuestionInput!): Question!
   DeleteQuestion(id: String!): Question!
@@ -124,6 +113,12 @@ type Mutation {
   asginarRolProfesor(credentials: CredentialsInput!): Credentials!
   login(credentials: CredentialsInput!): Credentials!
   eliminarVideoID(id: Float!): String
+}
+
+type Project {
+  id: Int!
+  name: String!
+  tasks: [Task!]!
 }
 
 type Qualification {
@@ -146,17 +141,21 @@ type Query {
   listarCursos: [Course!]
   listarCursosCategoria(categoria: CategoriaInput!): [Course!]!
   buscarCursoID(courseId: Float!): Course
+  projectByName(name: String!): Project
+  fetchTasks: [Task!]!
+  getTask(id: Float!): Task
   ping: String!
   SearchQuestions: [Question!]
   SearchQuestion(id: String!): Question
   buscarUsuario(userId: Float!): User
   listarUsuarios: [User!]
+  obtenerRolPorId(userId: Float!): [Role!]
   listarVideos: [Video!]
   buscarVideoID(id: Float!): Video
 }
 
 type Question {
-  id: ID!
+  id: String!
   statement: String!
   score: Int!
   user_id: Int!
@@ -170,8 +169,16 @@ input QuestionInput {
   user_id: Float!
 }
 
-type Subscription {
-  mensajesChat: ChatMsj!
+type Role {
+  id: Float!
+  roleName: String!
+}
+
+type Task {
+  id: Int!
+  title: String!
+  project: Project!
+  completed: Boolean!
 }
 
 type User {
