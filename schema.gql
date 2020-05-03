@@ -155,7 +155,7 @@ type Query {
 }
 
 type Question {
-  id: ID!
+  id: String!
   statement: String!
   score: Int!
   user_id: Int!
