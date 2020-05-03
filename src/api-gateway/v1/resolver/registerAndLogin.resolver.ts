@@ -2,7 +2,7 @@ import axios from "axios";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
-import {Credentials, CredentialsInput, Role, User, UserInput} from "../scheme/registerAndLogin";
+import {Credentials,CredentialsInput, Role, User, UserInput} from "../scheme/registerAndLogin";
 
 
 @Resolver(of => User)
@@ -42,6 +42,19 @@ export class UserResolver {
             return error;
         }
     }
+
+    @Query(returns => User, {nullable: true})
+    async ContarUsuarios(): Promise<User | undefined>{
+        try{
+            const data = await axios.get((endpoint.users.contarUsuarios));
+            return data.data;
+        }catch(error){
+
+            logger.error(error);
+            return error;
+        }
+    }
+
 
     @Mutation(returns => User)
     async registrarEstudiante(@Arg("user") user: UserInput): Promise<UserInput | undefined> {
