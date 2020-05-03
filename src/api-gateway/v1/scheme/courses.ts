@@ -1,4 +1,5 @@
-import { Field, Float, InputType, Int, ObjectType, ArgsType } from "type-graphql";
+import { Min } from 'class-validator';
+import { ArgsType, Field, Float, InputType, Int, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class Course {
@@ -53,12 +54,23 @@ export class Inscripcion {
 
 @ArgsType()
 export class GetInscripcionArgs {
-    @Field(type => Int)
-    idCurso!: number;
+    @Field(type => Int, { nullable: true })
+    idCurso?: number;
     
-    @Field(type => Float)
-    idEstudiante!: number;
+    @Field(type => Float, { nullable: true })
+    idEstudiante?: number;
 }
 
 @ArgsType()
-export class InscripcionArgs extends Inscripcion {}
+export class InscripcionArgs {
+    @Field(type => Int)
+    @Min(0)
+    idCurso!: number;
+
+    @Field(type => Float)
+    @Min(0)
+    idEstudiante!: number;
+
+    @Field()
+    calificacion?: string;
+}

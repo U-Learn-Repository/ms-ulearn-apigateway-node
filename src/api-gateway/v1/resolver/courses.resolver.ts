@@ -105,7 +105,7 @@ export class InscripcionResolver {
         }
         try {
             const { data: apiResponse } = await axios.post(endpoint.courses.inscripcion, args);
-            return args;
+            return (args as Inscripcion);
         } catch (error) {
             ErrorHandler.handle(error);
             return undefined;
@@ -116,7 +116,7 @@ export class InscripcionResolver {
     async actualizarInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         try {
             const { data: apiResponse } = await axios.put(endpoint.courses.inscripcion, args);
-            return args;
+            return (args as Inscripcion);
         } catch (error) {
             ErrorHandler.handle(error);
             return undefined;
@@ -127,7 +127,7 @@ export class InscripcionResolver {
     async eliminarInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         try {
             const { data: apiResponse } = await axios.delete(endpoint.courses.inscripcion, { data: args });
-            return args;
+            return (args as Inscripcion);
         } catch (error) {
             ErrorHandler.handle(error);
             return undefined;

@@ -97,9 +97,9 @@ type Mutation {
   crearCurso(curso: CourseInput!): Course!
   updateCurso(curso: CourseInput!): Course!
   deleteCurso(idCurso: Float!): String
-  crearInscripcion: Inscripcion
-  actualizarInscripcion: Inscripcion
-  eliminarInscripcion: Inscripcion
+  crearInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
+  actualizarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
+  eliminarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
   InsertQuestion(statement: String!, score: Float!): Question!
   UpdateQuestion(id: String!, question: QuestionInput!): Question!
   DeleteQuestion(id: String!): Question!
@@ -135,7 +135,7 @@ type Query {
   listarCursos: [Course!]
   listarCursosCategoria(categoria: Categoria!): [Course!]!
   buscarCursoID(courseId: Float!): Course
-  listarInscripciones(idCurso: Int!, idEstudiante: Float!): [Inscripcion!]
+  listarInscripciones(idCurso: Int, idEstudiante: Float): [Inscripcion!]
   ping: String!
   SearchQuestions: [Question!]
   SearchQuestion(id: String!): Question
