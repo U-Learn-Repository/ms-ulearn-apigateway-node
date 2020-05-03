@@ -1,4 +1,5 @@
 import { ArgsType, Field, ID, InputType, Int, ObjectType } from "type-graphql";
+import { type } from "os";
 
 
 /**
@@ -45,8 +46,8 @@ export class QuestionInput {
 
 @ObjectType()
 export class Answer {
-    @Field(type => ID)
-    id!: number
+    @Field(type => String)
+    id!: string
 
     @Field(type => String)
     context!: string
@@ -97,11 +98,20 @@ export class QualificationInput {
 
 @ArgsType()
 export class InsertQuestionArgs {
-    @Field()
+    @Field(type => String)
     statement: string;
 
-    @Field()
+    @Field(type => Int)
     score: number;
+
+    @Field(type => Int)
+    user_id: number
+
+    @Field(type => [String])
+    answers: string[]
+
+    @Field(type => [String])
+    qualification!: string[]
 }
 
 @ArgsType()

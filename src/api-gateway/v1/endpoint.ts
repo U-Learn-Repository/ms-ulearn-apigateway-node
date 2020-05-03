@@ -20,7 +20,8 @@ export const endpoint = {
         registroProfesor: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/2',
         registroNuevoRolEstudiante: DEFAULT_URL + ':6665/registro/usuario/rol/1',
         registroNuevoRolProfesor: DEFAULT_URL + ':6665/registro/usuario/rol/2',
-        rolPorId: DEFAULT_URL + ':6665/rolPorId/'
+        rolPorId: DEFAULT_URL + ':6665/rolPorId/',
+        contarUsuarios: DEFAULT_URL + ':6665/contarUsuarios'
     },
     courses: {
         createCurso: DEFAULT_URL + ':6667/curso/registro',

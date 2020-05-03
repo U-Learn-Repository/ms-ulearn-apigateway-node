@@ -66,11 +66,14 @@ export class QuestionResolver {
     }
 
     @Mutation(returns => Question)
-    async InsertQuestion(@Args() { statement, score }: InsertQuestionArgs): Promise<Question | undefined> {
+    async InsertQuestion(@Args() { statement, score, user_id, answers, qualification }: InsertQuestionArgs): Promise<Question | undefined> {
         try {
             const data = await axios.post(endpoint.quizzes.question, {
                 statement: statement,
-                score: score
+                score: score || 1,
+                user_id: user_id,
+                answers: answers || [],
+                qualifications: qualification || []
             });
 
             if (data.data.status == 200) {
@@ -138,6 +141,7 @@ export class AnswerResolver {
             });
 
             if (data.data.status == 200) {
+                data.data.body.id = data.data.body._id;
                 return data.data.body;
             }
 
