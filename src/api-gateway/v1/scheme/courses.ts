@@ -1,4 +1,4 @@
-import { Field, Float, InputType, Int, ObjectType } from "type-graphql";
+import { Field, Float, InputType, Int, ObjectType, ArgsType } from "type-graphql";
 
 @ObjectType()
 export class Course {
@@ -18,7 +18,7 @@ export class Course {
     idProfesor: number;
 }
 
-@ObjectType()
+@InputType()
 export class Categoria {
     @Field()
     categoria: string;
@@ -51,7 +51,7 @@ export class Inscripcion {
     calificacion: string;
 }
 
-@ObjectType()
+@ArgsType()
 export class GetInscripcionArgs {
     @Field(type => Int)
     idCurso!: number;
@@ -60,5 +60,5 @@ export class GetInscripcionArgs {
     idEstudiante!: number;
 }
 
-@ObjectType()
+@ArgsType()
 export class InscripcionArgs extends Inscripcion {}
