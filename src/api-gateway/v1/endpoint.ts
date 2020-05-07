@@ -1,42 +1,48 @@
-const DEFAULT_URL = 'http://172.17.0.1';
+
+const URL_CHATS        = 'http://34.235.108.80';
+const URL_QUIZZES      = 'http://52.3.187.50';
+const URL_USERS        = 'http://23.22.210.238';
+const URL_COURSES      = 'http://52.44.189.41';
+const URL_CERTIFICADOS = 'http://23.22.210.238';
+const URL_VIDEOS       = 'http://35.170.129.55';
 
 export const endpoint = {
     chats: {
-        grupo: DEFAULT_URL + ':3001/api/v1/grupo',
-        chat: DEFAULT_URL + ':3001/api/v1/chat',
+        grupo: URL_CHATS + ':6663/api/v1/grupo',
+        chat: URL_CHATS + ':6663/api/v1/chat',
     },
     quizzes: {
-        questions: DEFAULT_URL + ':7777/api/v1/questions/',
-        question: DEFAULT_URL + ':7777/api/v1/question/',
-        questionById: DEFAULT_URL + ':7777/api/v1/question/',
-        answer: DEFAULT_URL + ':7777/api/v1/answer/',
-        qualification: DEFAULT_URL + ':7777/api/v1/qualification/'
+        questions: URL_QUIZZES + ':7777/api/v1/questions/',
+        question: URL_QUIZZES + ':7777/api/v1/question/',
+        questionById: URL_QUIZZES + ':7777/api/v1/question/',
+        answer: URL_QUIZZES + ':7777/api/v1/answer/',
+        qualification: URL_QUIZZES + ':7777/api/v1/qualification/'
     },
     users: {
-        busqueda: DEFAULT_URL + ':6665/buscarUsuario/',
-        lista: DEFAULT_URL + ':6665/usuarios',
-        login: DEFAULT_URL + ':6665/login',
-        registroEstudiante: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/1',
-        registroProfesor: DEFAULT_URL + ':6665/registro/nuevo-usuario/rol/2',
-        registroNuevoRolEstudiante: DEFAULT_URL + ':6665/registro/usuario/rol/1',
-        registroNuevoRolProfesor: DEFAULT_URL + ':6665/registro/usuario/rol/2',
-        rolPorId: DEFAULT_URL + ':6665/rolPorId/',
-        contarUsuarios: DEFAULT_URL + ':6665/contarUsuarios'
+        busqueda: URL_USERS + ':6665/buscarUsuario/',
+        lista: URL_USERS + ':6665/usuarios',
+        login: URL_USERS + ':6665/login',
+        registroEstudiante: URL_USERS + ':6665/registro/nuevo-usuario/rol/1',
+        registroProfesor: URL_USERS + ':6665/registro/nuevo-usuario/rol/2',
+        registroNuevoRolEstudiante: URL_USERS + ':6665/registro/usuario/rol/1',
+        registroNuevoRolProfesor: URL_USERS + ':6665/registro/usuario/rol/2',
+        rolPorId: URL_USERS + ':6665/rolPorId/',
+        contarUsuarios: URL_USERS + ':6665/contarUsuarios'
     },
     courses: {
-        createCurso: DEFAULT_URL + ':6667/curso/registro',
-        listarCursos: DEFAULT_URL + ':6667/curso/consulta/',
-        listarCrusosByCategoria: DEFAULT_URL + ':6667/curso/consultacategoria/',
-        updateCurso: DEFAULT_URL + ':6667/curso/update',
-        listarCursoId: DEFAULT_URL + ':6667/curso/consultaid',
-        deleteCursoId: DEFAULT_URL + ':6667/curso/eliminarcurso',
-        inscripcion: DEFAULT_URL + ':6667/inscripcion',
+        createCurso: URL_COURSES + ':6667/curso/registro',
+        listarCursos: URL_COURSES + ':6667/curso/consulta/',
+        listarCrusosByCategoria: URL_COURSES + ':6667/curso/consultacategoria/',
+        updateCurso: URL_COURSES + ':6667/curso/update',
+        listarCursoId: URL_COURSES + ':6667/curso/consultaid',
+        deleteCursoId: URL_COURSES + ':6667/curso/eliminarcurso',
+        inscripcion: URL_COURSES + ':6667/inscripcion',
     },
     certificado: {
-        certificadoId: DEFAULT_URL + ':6671/v1/certificado/',
-        certificadoIdUsuario: DEFAULT_URL + ':6671/v1/certificado/?query=id_usuario:',
+        certificadoId: URL_CERTIFICADOS + ':6671/v1/certificado/',
+        certificadoIdUsuario: URL_CERTIFICADOS + ':6671/v1/certificado/?query=id_usuario:',
     },
     videos: {
-        listarVideos: DEFAULT_URL + ':6673/api/v1/video/'
+        listarVideos: URL_VIDEOS + ':6673/api/v1/video/'
     }
 }
