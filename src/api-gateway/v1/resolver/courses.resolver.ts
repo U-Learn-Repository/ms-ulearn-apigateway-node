@@ -59,9 +59,9 @@ export class CourseResolver {
     }
 
     @Mutation(returns => Course)
-    async updateCurso(@Arg("curso") Course: CourseInput): Promise<CourseInput | undefined> {
+    async updateCurso(@Arg("curso") Course: CourseInput , @Arg("idCurso") idCurso: number): Promise<CourseInput | undefined> {
         try {
-            const data = await axios.post(endpoint.courses.updateCurso, Course);
+            const data = await axios.post(endpoint.courses.updateCurso, {idCurso:idCurso, nombre:Course.nombre, categoria:Course.categoria, duracion:Course.duracion, idProfesor:Course.idProfesor} );
             //logger.debug(data);
             return Course;
         } catch (error) {
