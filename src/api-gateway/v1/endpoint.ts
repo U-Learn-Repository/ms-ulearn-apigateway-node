@@ -13,7 +13,7 @@ export const endpoint = {
     users: {
         busqueda: 'http://172.17.0.1:6665/buscarUsuario/',
         lista: 'http://172.17.0.1:6665/usuarios',
-        login: 'http://172.17.0.1:6665/login',
+        login: 'http://172.17.0.1:6665/oauth/token',
         registroEstudiante: 'http://172.17.0.1:6665/registro/nuevo-usuario/rol/1',
         registroProfesor: 'http://172.17.0.1:6665/registro/nuevo-usuario/rol/2',
         registroNuevoRolEstudiante: 'http://172.17.0.1:6665/registro/usuario/rol/1',

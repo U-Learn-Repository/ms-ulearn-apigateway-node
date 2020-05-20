@@ -1,8 +1,11 @@
 import axios from "axios";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import {Arg, Int, Mutation, Query, Resolver} from "type-graphql";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
-import {Credentials,CredentialsInput, Role, User, UserInput} from "../scheme/registerAndLogin";
+import {Credentials, CredentialsInput, LoginResponse, Role, User, UserInput} from "../scheme/registerAndLogin";
+import {config} from "winston";
+
+
 
 
 @Resolver(of => User)
@@ -110,15 +113,34 @@ export class CredentialsResolver {
         }
     }
 
-    @Mutation(returns => Credentials)
-    async login(@Arg("credentials") credentials: CredentialsInput): Promise<Credentials | undefined> {
+    @Mutation(returns => LoginResponse)
+    async login(@Arg("credentials") credentials: CredentialsInput): Promise<LoginResponse | undefined> {
+        const qs = require('querystring');
         try {
-            const data = await axios.post(endpoint.users.login, credentials);
-            logger.debug(data);
-            return credentials;
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic c29mdC1lbmctaWk6c2VjcmV0'
+                }
+            };
+            var requestBody = {
+                password: credentials.password,
+                username: credentials.username,
+                grant_type: credentials.grant_type
+            };
+
+            const data = await axios.post(endpoint.users.login, qs.stringify(requestBody), config);
+            //logger.debug(credentials);
+            logger.debug(data.data);
+            return data.data;
         } catch (error) {
             logger.error(error);
+            //logger.debug(config);
             return error;
         }
     }
+
+
+
+
 }

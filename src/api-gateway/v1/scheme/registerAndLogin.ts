@@ -45,6 +45,9 @@ export class CredentialsInput {
 
     @Field()
     password: string;
+
+    @Field()
+    grant_type: string;
 }
 
 @InputType()
@@ -65,6 +68,20 @@ export class UserInput {
     password!: string
 
 
+}
+
+@ObjectType()
+export class LoginResponse{
+    @Field()
+    access_token: String
+    @Field()
+    token_type: String
+    @Field()
+    refresh_token: String
+    @Field()
+    expires_in: String
+    @Field()
+    scope: String
 }
 
 
