@@ -2,7 +2,8 @@ import { AxiosError } from "axios";
 import logger from "../../../logger";
 
 export class ErrorHandler {
-    public static handle(error: any) {
+
+    public static handle(error: any): any {
         if (this.isAxiosError(error)) {
             return this.handleAxiosError(error);
         }
@@ -14,19 +15,20 @@ export class ErrorHandler {
     }
 
     private static handleAxiosError(error: AxiosError) {
+        let errorLog = {};
         if (error.response) {
-            let errorLog = {
+            errorLog = {
                 data: error.response.data,
                 status: error.response.status,
                 headers: error.response.headers,
             }
-            logger.error(errorLog);
         } else if (error.request) {
-            let errorLog = {
+            errorLog = {
                 message: error.message,
                 config: error.config,
             }
-            logger.error(errorLog);
         }
+        logger.error(errorLog);
+        return errorLog;
     }
 }

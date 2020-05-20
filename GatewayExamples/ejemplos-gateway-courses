@@ -30,12 +30,12 @@ mutation {
 }
 
 mutation {
-  updateCurso(curso: {
-    idCurso:1
-    nombre: "Fwdddasd"
-    categoria: "dd"
-    duracion: 23
-    idProfesor: 2
+  updateCurso(idCurso:1, 
+    curso: {
+    nombre: "Fxxdasd"
+    categoria: "ddxd"
+    duracion: 223
+    idProfesor: 1
   }) {
     nombre,
     duracion

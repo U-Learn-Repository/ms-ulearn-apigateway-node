@@ -1,8 +1,10 @@
 import axios from "axios";
-import { Args, Mutation, Query, Resolver } from "type-graphql";
+import { Args, Mutation, Publisher, PubSub, Query, Resolver, Root, Subscription } from "type-graphql";
 import { endpoint } from "../endpoint";
-import { Chat, ChatApiResponse, DeleteChatArgs, DeleteGrupoArgs, GetChatArgs, GetGrupoArgs, Grupo, PostChatArgs, PostGrupoArgs, PutChatArgs, PutGrupoArgs } from "../scheme/chats";
+import { Chat, ChatApiResponse, ChatMsj, DeleteChatArgs, DeleteGrupoArgs, GetChatArgs, GetGrupoArgs, Grupo, PostChatArgs, PostGrupoArgs, PutChatArgs, PutGrupoArgs } from "../scheme/chats";
 import { ErrorHandler } from "./error-handler";
+
+const TOPIC_CHAT = 'CHATS';
 
 @Resolver(of => Grupo)
 export class GrupoResolver {
@@ -12,7 +14,7 @@ export class GrupoResolver {
             const { data: apiResponse } = await axios.get(endpoint.chats.grupo, { params: args });
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return data;
         } catch (error) {
@@ -24,17 +26,18 @@ export class GrupoResolver {
     @Mutation(returns => Grupo, { nullable: true })
     async crearGrupo(@Args() args: PostGrupoArgs): Promise<Grupo | undefined> {
         try {
-            args.idAutores.forEach(async idAutor => {
-                const respUser = await axios.get(endpoint.users.busqueda + idAutor);
-            })
+            for (const idAutor of args.idAutores) {
+                await axios.get(endpoint.users.busqueda + idAutor);
+            }
         } catch (error) {
+            ErrorHandler.handle(error);
             return undefined;
         }
         try {
             const { data: apiResponse } = await axios.post(endpoint.chats.grupo, args);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return data;
         } catch (error) {
@@ -55,7 +58,7 @@ export class GrupoResolver {
             const { data: apiResponse } = await axios.put(url, dataBody);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return data;
         } catch (error) {
@@ -74,7 +77,7 @@ export class GrupoResolver {
             const { data: apiResponse } = await axios.delete(url, { data: dataBody });
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return undefined;
         } catch (error) {
@@ -86,13 +89,15 @@ export class GrupoResolver {
 
 @Resolver(of => Chat)
 export class ChatResolver {
+    private autoIncrement = 0;
+
     @Query(returns => [Chat], { nullable: true })
     async obtenerChats(@Args() args: GetChatArgs): Promise<Chat[] | undefined> {
         try {
             const { data: apiResponse } = await axios.get(endpoint.chats.chat, { params: args });
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return data;
         } catch (error) {
@@ -102,13 +107,18 @@ export class ChatResolver {
     }
 
     @Mutation(returns => Chat, { nullable: true })
-    async crearChat(@Args() args: PostChatArgs): Promise<Chat | undefined> {
+    async crearChat(@Args() args: PostChatArgs,
+        @PubSub(TOPIC_CHAT) publish: Publisher<Chat>, ): Promise<Chat | undefined> {
         try {
             const { data: apiResponse } = await axios.post(endpoint.chats.chat, args);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
+            const {data: usuario} = await axios.get(endpoint.users.busqueda + (data as Chat).idAutor);
+            const {names, surnames} = usuario;
+            (data as Chat).nombreAutor = names + ' ' + surnames
+            await publish(data);
             return data;
         } catch (error) {
             ErrorHandler.handle(error);
@@ -122,7 +132,7 @@ export class ChatResolver {
             const { data: apiResponse } = await axios.put(endpoint.chats.chat, args);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return data;
         } catch (error) {
@@ -141,12 +151,22 @@ export class ChatResolver {
             const { data: apiResponse } = await axios.put(url, params);
             const { data, error, success } = apiResponse as ChatApiResponse;
             if (!success) {
-                throw new Error(error);
+                return undefined;
             }
             return data;
         } catch (error) {
             ErrorHandler.handle(error);
             return undefined;
         }
+    }
+
+    @Subscription({ topics: TOPIC_CHAT })
+    mensajesChat(@Root() { nombreAutor, mensaje }: Chat): ChatMsj {
+        const resp: ChatMsj = {
+            autor: String(nombreAutor),
+            mensaje: String(mensaje),
+            fecha: new Date()
+        }
+        return resp;
     }
 }

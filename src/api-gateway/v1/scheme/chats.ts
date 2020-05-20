@@ -14,6 +14,9 @@ export class Chat {
 
   @Field()
   mensaje?: string;
+
+  @Field()
+  nombreAutor?: string;
 }
 
 @ObjectType()
@@ -32,6 +35,18 @@ export class Grupo {
 
   @Field(type => [Chat])
   mensajes?: Chat[];
+}
+
+@ObjectType()
+export class ChatMsj {
+  @Field()
+  autor!: string;
+
+  @Field()
+  mensaje!: string;
+
+  @Field()
+  fecha!: Date;
 }
 
 //                                                Definicion de argumentos
