@@ -76,7 +76,7 @@ export class UserResolver {
     async registrarProfesor(@Arg("user") user: UserInput): Promise<UserInput | undefined> {
         try {
 
-            const data = await axios.post(endpoint.users.registroEstudiante, user);
+            const data = await axios.post(endpoint.users.registroProfesor, user);
             //const data2 = await axios.get(endpoint.users.lista);
             logger.debug(data);
             return user;
