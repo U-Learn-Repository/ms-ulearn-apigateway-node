@@ -27,7 +27,8 @@ export const endpoint = {
         registroNuevoRolEstudiante: URL_USERS + ':6665/registro/usuario/rol/1',
         registroNuevoRolProfesor: URL_USERS + ':6665/registro/usuario/rol/2',
         rolPorId: URL_USERS + ':6665/rolPorId/',
-        contarUsuarios: URL_USERS + ':6665/contarUsuarios'
+        contarUsuarios: URL_USERS + ':6665/contarUsuarios',
+        busquedaPorUsername: URL_USERS + ':6665/usuarioPorUsername/'
     },
     courses: {
         createCurso: URL_COURSES + ':6667/curso/registro',

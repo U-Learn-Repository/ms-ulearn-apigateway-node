@@ -23,6 +23,19 @@ export class UserResolver {
         }
     }
 
+    @Query(returns => User, { nullable: true })
+    async buscarUsuarioPorUsername(@Arg("userName") userName: String): Promise<User | undefined> {
+        try {
+            const data = await axios.get(endpoint.users.busquedaPorUsername + userName);
+            //logger.debug(data);
+            return data.data;
+        } catch (error) {
+            logger.error(error);
+            return error;
+
+        }
+    }
+
     @Query(returns => [User], { nullable: true })
     async listarUsuarios(): Promise<User | undefined> {
         try {
@@ -76,7 +89,7 @@ export class UserResolver {
     async registrarProfesor(@Arg("user") user: UserInput): Promise<UserInput | undefined> {
         try {
 
-            const data = await axios.post(endpoint.users.registroEstudiante, user);
+            const data = await axios.post(endpoint.users.registroProfesor, user);
             //const data2 = await axios.get(endpoint.users.lista);
             logger.debug(data);
             return user;
@@ -131,6 +144,7 @@ export class CredentialsResolver {
             const data = await axios.post(endpoint.users.login, qs.stringify(requestBody), config);
             //logger.debug(credentials);
             logger.debug(data.data);
+            logger.debug(data.data.access_token);
             return data.data;
         } catch (error) {
             logger.error(error);
