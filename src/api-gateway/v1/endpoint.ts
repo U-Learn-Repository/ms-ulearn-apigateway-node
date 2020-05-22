@@ -20,6 +20,7 @@ export const endpoint = {
     },
     users: {
         busqueda: URL_USERS + ':6665/buscarUsuario/',
+        autenticacion: URL_USERS + ':6665/usuario/auth',
         lista: URL_USERS + ':6665/usuarios',
         login: URL_USERS + ':6665/oauth/token',
         registroEstudiante: URL_USERS + ':6665/registro/nuevo-usuario/rol/1',

@@ -14,11 +14,7 @@ input AnswerInput {
   is_correct: Boolean!
 }
 
-type Categoria {
-  categoria: String!
-}
-
-input CategoriaInput {
+input Categoria {
   categoria: String!
 }
 
@@ -38,6 +34,13 @@ type Chat {
   idAutor: Float!
   idMensaje: Float!
   mensaje: String!
+  nombreAutor: String!
+}
+
+type ChatMsj {
+  autor: String!
+  mensaje: String!
+  fecha: DateTime!
 }
 
 type Course {
@@ -55,22 +58,6 @@ input CourseInput {
   idProfesor: Int!
 }
 
-type CourseUpdate {
-  idCurso: Int!
-  nombre: String!
-  categoria: String!
-  duracion: Float!
-  idProfesor: Int!
-}
-
-input CourseUpdateInput {
-  idCurso: Int!
-  nombre: String!
-  categoria: String!
-  duracion: Float!
-  idProfesor: Int!
-}
-
 type Credentials {
   username: String!
 }
@@ -78,7 +65,13 @@ type Credentials {
 input CredentialsInput {
   username: String!
   password: String!
+  grant_type: String!
 }
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
 
 type Grupo {
   idGrupo: Float!
@@ -88,18 +81,27 @@ type Grupo {
   mensajes: [Chat!]!
 }
 
+type Inscripcion {
+  idCurso: Int!
+  idEstudiante: Float!
+  calificacion: String!
+}
+
+type LoginResponse {
+  access_token: String!
+  token_type: String!
+  refresh_token: String!
+  expires_in: String!
+  scope: String!
+}
+
 type Mutation {
-  registrarCertificado(certificado: CertificadoInput!): Certificado!
   crearGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!): Grupo
   actualizarGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!, idGrupo: Float!): Grupo
   eliminarGrupo(idGrupo: Float!, idAdmin: Float!): Grupo
   crearChat(idAutor: Float!, idGrupo: Float!, mensaje: String!): Chat
   actualizarChat(mensaje: String!, idAutor: Float!, idGrupo: Float!): Chat
   eliminarChat(idAutor: Float!, idGrupo: Float!): Chat
-  crearCurso(curso: CourseInput!): Course!
-  updateCurso(curso: CourseUpdateInput!): Course!
-  deleteCurso(idCurso: Float!): String
-  markAsCompleted(taskId: Float!): Task!
   InsertQuestion(statement: String!, score: Int!, user_id: Int!, answers: [String!]!, qualification: [String!]!): Question!
   UpdateQuestion(id: String!, question: QuestionInput!): Question!
   DeleteQuestion(id: String!): Question!
@@ -111,14 +113,15 @@ type Mutation {
   registrarProfesor(user: UserInput!): User!
   asginarRolEstudiante(credentials: CredentialsInput!): Credentials!
   asginarRolProfesor(credentials: CredentialsInput!): Credentials!
-  login(credentials: CredentialsInput!): Credentials!
+  login(credentials: CredentialsInput!): LoginResponse!
+  registrarCertificado(certificado: CertificadoInput!): Certificado!
+  crearCurso(curso: CourseInput!): Course!
+  updateCurso(idCurso: Float!, curso: CourseInput!): Course!
+  deleteCurso(idCurso: Float!): String
+  crearInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
+  actualizarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
+  eliminarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
   eliminarVideoID(id: Float!): String
-}
-
-type Project {
-  id: Int!
-  name: String!
-  tasks: [Task!]!
 }
 
 type Qualification {
@@ -133,23 +136,22 @@ input QualificationInput {
 }
 
 type Query {
-  obtenerCertificadosByID(Id: Float!): Certificado
-  CertificadosByUser(IdUsuario: Float!): [Certificado!]
-  obtenerCertificados: [Certificado!]
   obtenerGrupos(idAutor: Float!, idGrupo: Float, limit: Int, page: Int): [Grupo!]
   obtenerChats(idAutor: Float!, limit: Int, page: Int): [Chat!]
-  listarCursos: [Course!]
-  listarCursosCategoria(categoria: CategoriaInput!): [Course!]!
-  buscarCursoID(courseId: Float!): Course
-  projectByName(name: String!): Project
-  fetchTasks: [Task!]!
-  getTask(id: Float!): Task
   ping: String!
   SearchQuestions: [Question!]
   SearchQuestion(id: String!): Question
   buscarUsuario(userId: Float!): User
   listarUsuarios: [User!]
   obtenerRolPorId(userId: Float!): [Role!]
+  ContarUsuarios: User
+  obtenerCertificadosByID(Id: Float!): Certificado
+  CertificadosByUser(IdUsuario: Float!): [Certificado!]
+  obtenerCertificados: [Certificado!]
+  listarCursos: [Course!]
+  listarCursosCategoria(categoria: Categoria!): [Course!]!
+  buscarCursoID(courseId: Float!): Course
+  listarInscripciones(idCurso: Int, idEstudiante: Float): [Inscripcion!]
   listarVideos: [Video!]
   buscarVideoID(id: Float!): Video
 }
@@ -174,11 +176,8 @@ type Role {
   roleName: String!
 }
 
-type Task {
-  id: Int!
-  title: String!
-  project: Project!
-  completed: Boolean!
+type Subscription {
+  mensajesChat: ChatMsj!
 }
 
 type User {
