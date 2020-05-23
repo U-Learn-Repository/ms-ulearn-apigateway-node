@@ -1,18 +1,12 @@
 import axios from "axios";
 import { Arg, Args, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
-import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
+import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import { Answer, DeleteQuestionArgs, InsertAnswerArgs, InsertQualificationArgs, InsertQuestionArgs, Qualification, Question, UpdateAnswerArgs, UpdateQualificationArgs, UpdateQuestionArgs } from "../scheme/quizzes";
 
 @Resolver(of => Question)
 export class QuestionResolver {
-
-    @Query(() => String)
-    ping() {
-        return "Pong";
-    }
-
     @UseMiddleware(ValidateAuth)
     @Query(returns => [Question], { nullable: true })
     async SearchQuestions(): Promise<[Question] | undefined> {
