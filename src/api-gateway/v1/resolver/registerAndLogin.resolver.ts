@@ -24,6 +24,20 @@ export class UserResolver {
     }
 
     @UseMiddleware(ValidateAuth)
+    @Query(returns => User, { nullable: true })
+    async buscarUsuarioPorUsername(@Arg("userName") userName: String): Promise<User | undefined> {
+        try {
+            const data = await axios.get(endpoint.users.busquedaPorUsername + userName);
+            //logger.debug(data);
+            return data.data;
+        } catch (error) {
+            logger.error(error);
+            return error;
+
+        }
+    }
+
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [User], { nullable: true })
     async listarUsuarios(): Promise<User | undefined> {
         try {
@@ -133,6 +147,7 @@ export class CredentialsResolver {
             const data = await axios.post(endpoint.users.login, qs.stringify(requestBody), config);
             //logger.debug(credentials);
             logger.debug(data.data);
+            logger.debug(data.data.access_token);
             return data.data;
         } catch (error) {
             logger.error(error);
