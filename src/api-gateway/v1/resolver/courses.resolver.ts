@@ -1,6 +1,7 @@
 import axios from "axios";
-import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { isNull } from "util";
+import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
 import { Categoria, Course, CourseInput, GetInscripcionArgs, Inscripcion, InscripcionArgs } from "../scheme/courses";
@@ -8,6 +9,8 @@ import { ErrorHandler } from "./error-handler";
 
 @Resolver(of => Course)
 export class CourseResolver {
+
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Course], { nullable: true })
     async listarCursos(): Promise<Course | undefined> {
         try {
@@ -20,6 +23,7 @@ export class CourseResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Course], { nullable: false })
     async listarCursosCategoria(@Arg("categoria") categoria: Categoria): Promise<Course | undefined> {
         try {
@@ -33,6 +37,7 @@ export class CourseResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => Course, { nullable: true })
     async buscarCursoID(@Arg("courseId") courseId: number): Promise<Course | undefined> {
         try {
@@ -45,6 +50,7 @@ export class CourseResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Course)
     async crearCurso(@Arg("curso") curso: CourseInput): Promise<CourseInput | undefined> {
         try {
@@ -58,6 +64,7 @@ export class CourseResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Course)
     async updateCurso(@Arg("curso") Course: CourseInput , @Arg("idCurso") idCurso: number): Promise<CourseInput | undefined> {
         try {
@@ -70,6 +77,7 @@ export class CourseResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => String, { nullable: true })
     async deleteCurso(@Arg("idCurso") idCurso: number): Promise<String | undefined> {
         try {
@@ -85,6 +93,7 @@ export class CourseResolver {
 
 @Resolver(of => Inscripcion)
 export class InscripcionResolver {
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Inscripcion], { nullable: true })
     async listarInscripciones(@Args() args: GetInscripcionArgs): Promise<Inscripcion[] | undefined> {
         try {
@@ -96,6 +105,7 @@ export class InscripcionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Inscripcion, { nullable: true })
     async crearInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         const usuario = await this.obtenerUsuario(args.idEstudiante);
@@ -112,6 +122,7 @@ export class InscripcionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Inscripcion, { nullable: true })
     async actualizarInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         try {
@@ -123,6 +134,7 @@ export class InscripcionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Inscripcion, { nullable: true })
     async eliminarInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         try {

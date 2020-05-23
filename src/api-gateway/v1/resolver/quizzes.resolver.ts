@@ -1,10 +1,9 @@
 import axios from "axios";
-import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
-import { Answer, DeleteQuestionArgs, InsertAnswerArgs, InsertQualificationArgs, 
-    InsertQuestionArgs, Qualification, Question, UpdateAnswerArgs, UpdateQualificationArgs, 
-    UpdateQuestionArgs } from "../scheme/quizzes";
+import { Answer, DeleteQuestionArgs, InsertAnswerArgs, InsertQualificationArgs, InsertQuestionArgs, Qualification, Question, UpdateAnswerArgs, UpdateQualificationArgs, UpdateQuestionArgs } from "../scheme/quizzes";
 
 @Resolver(of => Question)
 export class QuestionResolver {
@@ -14,6 +13,7 @@ export class QuestionResolver {
         return "Pong";
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Question], { nullable: true })
     async SearchQuestions(): Promise<[Question] | undefined> {
         try {
@@ -36,6 +36,7 @@ export class QuestionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => Question, { nullable: true })
     async SearchQuestion(@Arg("id") userId: string): Promise<Question | undefined> {
         try {
@@ -65,6 +66,7 @@ export class QuestionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Question)
     async InsertQuestion(@Args() { statement, score, user_id, answers, qualification }: InsertQuestionArgs): Promise<Question | undefined> {
         try {
@@ -86,6 +88,7 @@ export class QuestionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Question)
     async UpdateQuestion(@Args() args: UpdateQuestionArgs): Promise<Question | undefined> {
         try {
@@ -108,6 +111,7 @@ export class QuestionResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Question)
     async DeleteQuestion(@Args() args: DeleteQuestionArgs): Promise<Question | undefined> {
         try {
@@ -130,7 +134,7 @@ export class QuestionResolver {
 
 @Resolver(of => Question)
 export class AnswerResolver {
-
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Answer)
     async InsertAnswer(@Args() args: InsertAnswerArgs): Promise<Answer | undefined> {
         try {
@@ -152,6 +156,7 @@ export class AnswerResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Answer)
     async UpdateAnswer(@Args() args: UpdateAnswerArgs): Promise<Answer | undefined> {
         try {
@@ -177,7 +182,7 @@ export class AnswerResolver {
 @Resolver(of => Question)
 export class QualificationResolver {
 
-
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Qualification)
     async InsertQualification(@Args() args: InsertQualificationArgs): Promise<Qualification | undefined> {
         try {
@@ -197,7 +202,7 @@ export class QualificationResolver {
         }
     }
 
-
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Qualification)
     async UpdateQualification(@Args() args: UpdateQualificationArgs): Promise<Qualification | undefined> {
         try {

@@ -1,15 +1,15 @@
 import axios from "axios";
-import {Arg, Int, Mutation, Query, Resolver} from "type-graphql";
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
-import {Credentials, CredentialsInput, LoginResponse, Role, User, UserInput} from "../scheme/registerAndLogin";
-import {config} from "winston";
-
+import { ValidateAuth } from "../middleware/validateAuth.middleware";
+import { Credentials, CredentialsInput, LoginResponse, Role, User, UserInput } from "../scheme/registerAndLogin";
 
 
 
 @Resolver(of => User)
 export class UserResolver {
+    @UseMiddleware(ValidateAuth)
     @Query(returns => User, { nullable: true })
     async buscarUsuario(@Arg("userId") userId: number): Promise<User | undefined> {
         try {
@@ -23,6 +23,7 @@ export class UserResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [User], { nullable: true })
     async listarUsuarios(): Promise<User | undefined> {
         try {
@@ -35,6 +36,7 @@ export class UserResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Role], {nullable: true})
     async obtenerRolPorId(@Arg("userId") userId: number): Promise<Role | undefined>{
         try{
@@ -46,6 +48,7 @@ export class UserResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Query(returns => User, {nullable: true})
     async ContarUsuarios(): Promise<User | undefined>{
         try{
@@ -57,7 +60,6 @@ export class UserResolver {
             return error;
         }
     }
-
 
     @Mutation(returns => User)
     async registrarEstudiante(@Arg("user") user: UserInput): Promise<UserInput | undefined> {
@@ -138,8 +140,4 @@ export class CredentialsResolver {
             return error;
         }
     }
-
-
-
-
 }

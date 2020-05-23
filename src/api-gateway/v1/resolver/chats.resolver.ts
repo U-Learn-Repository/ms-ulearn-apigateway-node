@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Args, Mutation, Publisher, PubSub, Query, Resolver, Root, Subscription } from "type-graphql";
+import { Args, Mutation, Publisher, PubSub, Query, Resolver, Root, Subscription, UseMiddleware } from "type-graphql";
+import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import { endpoint } from "../endpoint";
 import { Chat, ChatApiResponse, ChatMsj, DeleteChatArgs, DeleteGrupoArgs, GetChatArgs, GetGrupoArgs, Grupo, PostChatArgs, PostGrupoArgs, PutChatArgs, PutGrupoArgs } from "../scheme/chats";
 import { ErrorHandler } from "./error-handler";
@@ -8,6 +9,7 @@ const TOPIC_CHAT = 'CHATS';
 
 @Resolver(of => Grupo)
 export class GrupoResolver {
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Grupo], { nullable: true })
     async obtenerGrupos(@Args() args: GetGrupoArgs): Promise<Grupo[] | undefined> {
         try {
@@ -23,6 +25,7 @@ export class GrupoResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Grupo, { nullable: true })
     async crearGrupo(@Args() args: PostGrupoArgs): Promise<Grupo | undefined> {
         try {
@@ -46,6 +49,7 @@ export class GrupoResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Grupo, { nullable: true })
     async actualizarGrupo(@Args() args: PutGrupoArgs): Promise<Grupo | undefined> {
         try {
@@ -67,6 +71,7 @@ export class GrupoResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Grupo, { nullable: true })
     async eliminarGrupo(@Args() args: DeleteGrupoArgs): Promise<Grupo | undefined> {
         try {
@@ -90,7 +95,8 @@ export class GrupoResolver {
 @Resolver(of => Chat)
 export class ChatResolver {
     private autoIncrement = 0;
-
+    
+    @UseMiddleware(ValidateAuth)
     @Query(returns => [Chat], { nullable: true })
     async obtenerChats(@Args() args: GetChatArgs): Promise<Chat[] | undefined> {
         try {
@@ -106,6 +112,7 @@ export class ChatResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Chat, { nullable: true })
     async crearChat(@Args() args: PostChatArgs,
         @PubSub(TOPIC_CHAT) publish: Publisher<Chat>, ): Promise<Chat | undefined> {
@@ -115,8 +122,8 @@ export class ChatResolver {
             if (!success) {
                 return undefined;
             }
-            const {data: usuario} = await axios.get(endpoint.users.busqueda + (data as Chat).idAutor);
-            const {names, surnames} = usuario;
+            const { data: usuario } = await axios.get(endpoint.users.busqueda + (data as Chat).idAutor);
+            const { names, surnames } = usuario;
             (data as Chat).nombreAutor = names + ' ' + surnames
             await publish(data);
             return data;
@@ -126,6 +133,7 @@ export class ChatResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Chat, { nullable: true })
     async actualizarChat(@Args() args: PutChatArgs): Promise<Chat | undefined> {
         try {
@@ -141,6 +149,7 @@ export class ChatResolver {
         }
     }
 
+    @UseMiddleware(ValidateAuth)
     @Mutation(returns => Chat, { nullable: true })
     async eliminarChat(@Args() args: DeleteChatArgs): Promise<Chat | undefined> {
         try {
