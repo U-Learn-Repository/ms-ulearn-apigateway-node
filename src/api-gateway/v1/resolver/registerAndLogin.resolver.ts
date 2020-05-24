@@ -1,9 +1,10 @@
 import axios from "axios";
-import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, UseMiddleware, Ctx } from "type-graphql";
 import logger from "../../../logger";
 import { endpoint } from "../endpoint";
 import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import { Credentials, CredentialsInput, LoginResponse, Role, User, UserInput } from "../scheme/registerAndLogin";
+import { Context } from "../../../context";
 
 
 
@@ -11,9 +12,10 @@ import { Credentials, CredentialsInput, LoginResponse, Role, User, UserInput } f
 export class UserResolver {
     @UseMiddleware(ValidateAuth)
     @Query(returns => User, { nullable: true })
-    async buscarUsuario(@Arg("userId") userId: number): Promise<User | undefined> {
+    async buscarUsuario(@Arg("userId") userId: number, @Ctx() ctx: Context): Promise<User | undefined> {
         try {
-            const data = await axios.get(endpoint.users.busqueda + userId.toString());
+            const token = ctx.headers.authorization || '';
+            const data = await axios.get(endpoint.users.busqueda + userId.toString(), { headers: { authorization: token } });
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -25,9 +27,10 @@ export class UserResolver {
 
     @UseMiddleware(ValidateAuth)
     @Query(returns => User, { nullable: true })
-    async buscarUsuarioPorUsername(@Arg("userName") userName: String): Promise<User | undefined> {
+    async buscarUsuarioPorUsername(@Arg("userName") userName: String, @Ctx() ctx: Context): Promise<User | undefined> {
         try {
-            const data = await axios.get(endpoint.users.busquedaPorUsername + userName);
+            const token = ctx.headers.authorization || '';
+            const data = await axios.get(endpoint.users.busquedaPorUsername + userName, { headers: { authorization: token } });
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -39,9 +42,10 @@ export class UserResolver {
 
     @UseMiddleware(ValidateAuth)
     @Query(returns => [User], { nullable: true })
-    async listarUsuarios(): Promise<User | undefined> {
+    async listarUsuarios(@Ctx() ctx: Context): Promise<User | undefined> {
         try {
-            const data = await axios.get(endpoint.users.lista);
+            const token = ctx.headers.authorization || '';
+            const data = await axios.get(endpoint.users.lista, { headers: { authorization: token } });
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -52,9 +56,10 @@ export class UserResolver {
 
     @UseMiddleware(ValidateAuth)
     @Query(returns => [Role], {nullable: true})
-    async obtenerRolPorId(@Arg("userId") userId: number): Promise<Role | undefined>{
+    async obtenerRolPorId(@Arg("userId") userId: number, @Ctx() ctx: Context): Promise<Role | undefined>{
         try{
-            const data = await axios.get((endpoint.users.rolPorId + userId.toString()));
+            const token = ctx.headers.authorization || '';
+            const data = await axios.get((endpoint.users.rolPorId + userId.toString()), { headers: { authorization: token } });
             return data.data;
         }catch(error){
             logger.error(error);
@@ -64,9 +69,10 @@ export class UserResolver {
 
     @UseMiddleware(ValidateAuth)
     @Query(returns => User, {nullable: true})
-    async ContarUsuarios(): Promise<User | undefined>{
+    async ContarUsuarios(@Ctx() ctx: Context): Promise<User | undefined>{
         try{
-            const data = await axios.get((endpoint.users.contarUsuarios));
+            const token = ctx.headers.authorization || '';
+            const data = await axios.get((endpoint.users.contarUsuarios), { headers: { authorization: token } });
             return data.data;
         }catch(error){
 
@@ -105,9 +111,10 @@ export class UserResolver {
 
 export class CredentialsResolver {
     @Mutation(returns => Credentials)
-    async asginarRolEstudiante(@Arg("credentials") credentials: CredentialsInput): Promise<CredentialsInput | undefined> {
+    async asginarRolEstudiante(@Arg("credentials") credentials: CredentialsInput, @Ctx() ctx: Context): Promise<CredentialsInput | undefined> {
         try {
-            const data = await axios.post(endpoint.users.registroNuevoRolEstudiante, credentials);
+            const token = ctx.headers.authorization || '';
+            const data = await axios.post(endpoint.users.registroNuevoRolEstudiante, credentials, { headers: { authorization: token } });
             logger.debug(data);
             return credentials;
         } catch (error) {
@@ -117,9 +124,10 @@ export class CredentialsResolver {
     }
 
     @Mutation(returns => Credentials)
-    async asginarRolProfesor(@Arg("credentials") credentials: CredentialsInput): Promise<Credentials | undefined> {
+    async asginarRolProfesor(@Arg("credentials") credentials: CredentialsInput, @Ctx() ctx: Context): Promise<Credentials | undefined> {
         try {
-            const data = await axios.post(endpoint.users.registroNuevoRolProfesor, credentials);
+            const token = ctx.headers.authorization || '';
+            const data = await axios.post(endpoint.users.registroNuevoRolProfesor, credentials, { headers: { authorization: token } });
             logger.debug(data);
             return credentials;
         } catch (error) {
