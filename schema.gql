@@ -96,12 +96,19 @@ type LoginResponse {
 }
 
 type Mutation {
+  registrarCertificado(certificado: CertificadoInput!): Certificado!
   crearGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!): Grupo
   actualizarGrupo(idAdmin: Float!, idAutores: [Float!]!, titulo: String!, idGrupo: Float!): Grupo
   eliminarGrupo(idGrupo: Float!, idAdmin: Float!): Grupo
   crearChat(idAutor: Float!, idGrupo: Float!, mensaje: String!): Chat
   actualizarChat(mensaje: String!, idAutor: Float!, idGrupo: Float!): Chat
   eliminarChat(idAutor: Float!, idGrupo: Float!): Chat
+  crearCurso(curso: CourseInput!): Course!
+  updateCurso(idCurso: Float!, curso: CourseInput!): Course!
+  deleteCurso(idCurso: Float!): String
+  crearInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
+  actualizarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
+  eliminarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
   InsertQuestion(statement: String!, score: Int!, user_id: Int!, answers: [String!]!, qualification: [String!]!): Question!
   UpdateQuestion(id: String!, question: QuestionInput!): Question!
   DeleteQuestion(id: String!): Question!
@@ -114,13 +121,6 @@ type Mutation {
   asginarRolEstudiante(credentials: CredentialsInput!): Credentials!
   asginarRolProfesor(credentials: CredentialsInput!): Credentials!
   login(credentials: CredentialsInput!): LoginResponse!
-  registrarCertificado(certificado: CertificadoInput!): Certificado!
-  crearCurso(curso: CourseInput!): Course!
-  updateCurso(idCurso: Float!, curso: CourseInput!): Course!
-  deleteCurso(idCurso: Float!): String
-  crearInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
-  actualizarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
-  eliminarInscripcion(idCurso: Int!, idEstudiante: Float!, calificacion: String!): Inscripcion
   eliminarVideoID(id: Float!): String
 }
 
@@ -136,22 +136,24 @@ input QualificationInput {
 }
 
 type Query {
-  obtenerGrupos(idAutor: Float!, idGrupo: Float, limit: Int, page: Int): [Grupo!]
-  obtenerChats(idAutor: Float!, limit: Int, page: Int): [Chat!]
-  ping: String!
-  SearchQuestions: [Question!]
-  SearchQuestion(id: String!): Question
-  buscarUsuario(userId: Float!): User
-  listarUsuarios: [User!]
-  obtenerRolPorId(userId: Float!): [Role!]
-  ContarUsuarios: User
   obtenerCertificadosByID(Id: Float!): Certificado
   CertificadosByUser(IdUsuario: Float!): [Certificado!]
   obtenerCertificados: [Certificado!]
+  obtenerGrupos(idAutor: Float!, idGrupo: Float, limit: Int, page: Int): [Grupo!]
+  obtenerChats(idAutor: Float!, limit: Int, page: Int): [Chat!]
   listarCursos: [Course!]
   listarCursosCategoria(categoria: Categoria!): [Course!]!
   buscarCursoID(courseId: Float!): Course
   listarInscripciones(idCurso: Int, idEstudiante: Float): [Inscripcion!]
+  SearchQuestions: [Question!]
+  SearchQuestion(id: String!): Question
+  buscarUsuario(userId: Float!): User
+  buscarUsuarioPorUsername(userName: String!): User
+  listarUsuarios: [User!]
+  obtenerRolPorId(userId: Float!): [Role!]
+  ContarUsuarios: User
+  ping: String!
+  pingAuth: String!
   listarVideos: [Video!]
   buscarVideoID(id: Float!): Video
 }
