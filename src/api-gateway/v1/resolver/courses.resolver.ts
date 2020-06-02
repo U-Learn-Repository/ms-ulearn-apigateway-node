@@ -54,7 +54,21 @@ export class CourseResolver {
     @Mutation(returns => Course)
     async crearCurso(@Arg("curso") curso: CourseInput): Promise<CourseInput | undefined> {
         try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'key=AAAATnf4ubU:APA91bETkWomeEj1bwEPgjKJiTkoQpWWK3cEy02iJp8RGnDn074JHhAhHyDNPc4ZUwJJs4-67q_f8VAauU9lpFDsJKt75I8auziUTt_qh0ILCI9uzSQFGAylWpD4Ca3zLePWXqVlHZY-'
+                }
+            };
+            var requestBody = {
+                "notification": {
+                    "title": "¡Nuevo curso disponible!",
+                    "body":  "Se ha creado el curso: " + curso.nombre
+                },
+                "to":"dflhU2glnkS7Uw9MGsEnpV:APA91bHOFv9BFZGK774Tb76O7mQOWSXuo4hoB4oI5rJE0dCJpPZJJd3BxM0vrDaSQFqWzxHBWD9uk4mzOAa7AlCz7tqfywFg5O8tI9yO8wISbr7sERpDX1ZQltIT8K9jl4wsQhMRUK4I"
+            };
             const data = await axios.post(endpoint.courses.createCurso, curso);
+            const data1 = await axios.post(endpoint.notificacion.notificacion, requestBody, config);
             //const data2 = await axios.get(endpoint.users.lista);
             logger.debug(data);
             return curso;

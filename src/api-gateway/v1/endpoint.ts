@@ -5,6 +5,9 @@ const URL_USERS        = 'http://23.22.210.238';
 const URL_COURSES      = 'http://52.44.189.41';
 const URL_CERTIFICADOS = 'http://23.22.210.238';
 const URL_VIDEOS       = 'http://35.170.129.55';
+const URL_FIREBASE     = 'https://fcm.googleapis.com/fcm/send';
+const URL_LOCAL_DOCKER = 'http://172.17.0.1';
+
 
 export const endpoint = {
     chats: {
@@ -46,5 +49,9 @@ export const endpoint = {
     },
     videos: {
         listarVideos: URL_VIDEOS + ':6673/api/v1/video/'
+    },
+    notificacion: {
+        notificacion: URL_FIREBASE
     }
+
 }

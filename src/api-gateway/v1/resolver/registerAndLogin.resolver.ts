@@ -97,10 +97,10 @@ export class UserResolver {
     @Mutation(returns => User)
     async registrarProfesor(@Arg("user") user: UserInput): Promise<UserInput | undefined> {
         try {
-
             const data = await axios.post(endpoint.users.registroProfesor, user);
             //const data2 = await axios.get(endpoint.users.lista);
-            logger.debug(data);
+            //logger.debug(data);
+            //logger.debug(data1);
             return user;
         } catch (error) {
             logger.error(error);
