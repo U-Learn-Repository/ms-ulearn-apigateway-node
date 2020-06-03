@@ -43,7 +43,7 @@ export class CertificadoResolver {
         }
     }
 
-    @UseMiddleware(ValidateAuth)
+    
     @Mutation(returns => Certificado)
     async registrarCertificado(@Arg("certificado") certificado: CertificadoInput): Promise<CertificadoInput | undefined> {
         try {

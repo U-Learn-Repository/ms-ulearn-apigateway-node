@@ -7,6 +7,9 @@ const URL_CERTIFICADOS = 'http://23.22.210.238';
 const URL_VIDEOS       = 'http://35.170.129.55';
 const URL_FIREBASE     = 'https://fcm.googleapis.com/fcm/send';
 const URL_LOCAL_DOCKER = 'http://172.17.0.1';
+//const URL_USERS        = URL_LOCAL_DOCKER;
+//const URL_CERTIFICADOS = URL_LOCAL_DOCKER;
+//const URL_COURSES      = URL_LOCAL_DOCKER;
 
 
 export const endpoint = {
