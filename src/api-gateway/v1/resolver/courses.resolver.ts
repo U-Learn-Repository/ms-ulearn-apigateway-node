@@ -13,7 +13,6 @@ const URL = 'http://'+ cursos_url + ':' + cursos_port;
 @Resolver(of => Course)
 export class CourseResolver {
 
-    @UseMiddleware(ValidateAuth)
     @Query(returns => [Course], { nullable: true })
     async listarCursos(): Promise<Course | undefined> {
         try {
