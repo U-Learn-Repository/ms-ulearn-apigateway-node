@@ -5,6 +5,10 @@ import { endpoint } from "../endpoint";
 import { ErrorHandler } from "../resolver/error-handler";
 import { isUndefined } from "util";
 
+import {user_url, user_port} from '../../../server';
+
+const URL = 'http://'+ user_url + ':' + user_port;
+
 export class ValidateAuth implements MiddlewareInterface<Context> {
     async use({ root, args, context, info }: ResolverData<Context>, next: NextFn) {
         const token = (context as Context).headers.authorization || '';
@@ -14,7 +18,7 @@ export class ValidateAuth implements MiddlewareInterface<Context> {
         console.log('Validar endpoint: ' + info.fieldName);
         try {
             console.log('Validar token: ' + token);
-            await axios.get(endpoint.users.autenticacion, { headers: { authorization: token } });
+            await axios.get(URL + endpoint.users.autenticacion, { headers: { authorization: token } });
             console.log('Token valido');
         } catch (error) {
             ErrorHandler.handle(error);

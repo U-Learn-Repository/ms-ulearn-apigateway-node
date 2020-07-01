@@ -5,13 +5,17 @@ import { endpoint } from "../endpoint";
 import { ValidateAuth } from "../middleware/validateAuth.middleware";
 import { Answer, DeleteQuestionArgs, InsertAnswerArgs, InsertQualificationArgs, InsertQuestionArgs, Qualification, Question, UpdateAnswerArgs, UpdateQualificationArgs, UpdateQuestionArgs } from "../scheme/quizzes";
 
+import {quizzes_url, quizzes_port} from '../../../server';
+
+const URL = 'http://'+ quizzes_url + ':' + quizzes_port;
+
 @Resolver(of => Question)
 export class QuestionResolver {
     @UseMiddleware(ValidateAuth)
     @Query(returns => [Question], { nullable: true })
     async SearchQuestions(): Promise<[Question] | undefined> {
         try {
-            const data = await axios.get(endpoint.quizzes.questions);
+            const data = await axios.get(URL + endpoint.quizzes.questions);
             var index = 0;
             for(let quest of data.data.body) {
                 for(let ans of quest.answers) {
@@ -34,7 +38,7 @@ export class QuestionResolver {
     @Query(returns => Question, { nullable: true })
     async SearchQuestion(@Arg("id") userId: string): Promise<Question | undefined> {
         try {
-            const data = await axios.get(endpoint.quizzes.questionById + userId);
+            const data = await axios.get(URL + endpoint.quizzes.questionById + userId);
 
             for(let ans of data.data.body.answers) {
                 if(!ans.is_correct) {
@@ -64,7 +68,7 @@ export class QuestionResolver {
     @Mutation(returns => Question)
     async InsertQuestion(@Args() { statement, score, user_id, answers, qualification }: InsertQuestionArgs): Promise<Question | undefined> {
         try {
-            const data = await axios.post(endpoint.quizzes.question, {
+            const data = await axios.post(URL + endpoint.quizzes.question, {
                 statement: statement,
                 score: score || 1,
                 user_id: user_id,
@@ -86,7 +90,7 @@ export class QuestionResolver {
     @Mutation(returns => Question)
     async UpdateQuestion(@Args() args: UpdateQuestionArgs): Promise<Question | undefined> {
         try {
-            const url = endpoint.quizzes.question + args.id;
+            const url = URL + endpoint.quizzes.question + args.id;
 
             const data = await axios.put(url, {
                 statement: args.question.statement,
@@ -109,7 +113,7 @@ export class QuestionResolver {
     @Mutation(returns => Question)
     async DeleteQuestion(@Args() args: DeleteQuestionArgs): Promise<Question | undefined> {
         try {
-            const url = endpoint.quizzes.question + args.id
+            const url = URL + endpoint.quizzes.question + args.id
             const data = await axios.delete(url);
 
             if (data.data) {
@@ -133,7 +137,7 @@ export class AnswerResolver {
     async InsertAnswer(@Args() args: InsertAnswerArgs): Promise<Answer | undefined> {
         try {
 
-            const data = await axios.post(endpoint.quizzes.answer, {
+            const data = await axios.post(URL + endpoint.quizzes.answer, {
                 context: args.answer.context,
                 is_correct: args.answer.is_correct
             });
@@ -154,7 +158,7 @@ export class AnswerResolver {
     @Mutation(returns => Answer)
     async UpdateAnswer(@Args() args: UpdateAnswerArgs): Promise<Answer | undefined> {
         try {
-            const url = endpoint.quizzes.answer + args.id
+            const url = URL + endpoint.quizzes.answer + args.id
 
             const data = await axios.put(url, {
                 context: args.answer.context,
@@ -180,7 +184,7 @@ export class QualificationResolver {
     @Mutation(returns => Qualification)
     async InsertQualification(@Args() args: InsertQualificationArgs): Promise<Qualification | undefined> {
         try {
-            const data = await axios.post(endpoint.quizzes.qualification, {
+            const data = await axios.post(URL + endpoint.quizzes.qualification, {
                 value: args.qualification.value,
                 user_id: args.qualification.user_id
             });
@@ -200,7 +204,7 @@ export class QualificationResolver {
     @Mutation(returns => Qualification)
     async UpdateQualification(@Args() args: UpdateQualificationArgs): Promise<Qualification | undefined> {
         try {
-            const url = endpoint.quizzes.qualification + args.id;
+            const url = URL + endpoint.quizzes.qualification + args.id;
 
             const data = await axios.put(url, {
                 value: args.qualification.value,

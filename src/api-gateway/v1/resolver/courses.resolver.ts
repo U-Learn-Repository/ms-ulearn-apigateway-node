@@ -6,6 +6,9 @@ import logger from "../../../logger";
 import { endpoint } from "../endpoint";
 import { Categoria, Course, CourseInput, GetInscripcionArgs, Inscripcion, InscripcionArgs } from "../scheme/courses";
 import { ErrorHandler } from "./error-handler";
+import {cursos_url, cursos_port} from '../../../server';
+
+const URL = 'http://'+ cursos_url + ':' + cursos_port;
 
 @Resolver(of => Course)
 export class CourseResolver {
@@ -14,7 +17,7 @@ export class CourseResolver {
     @Query(returns => [Course], { nullable: true })
     async listarCursos(): Promise<Course | undefined> {
         try {
-            const data = await axios.get(endpoint.courses.listarCursos);
+            const data = await axios.get(URL + endpoint.courses.listarCursos);
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -27,7 +30,7 @@ export class CourseResolver {
     @Query(returns => [Course], { nullable: false })
     async listarCursosCategoria(@Arg("categoria") categoria: Categoria): Promise<Course | undefined> {
         try {
-            const data = await axios.post(endpoint.courses.listarCrusosByCategoria, categoria);
+            const data = await axios.post(URL + endpoint.courses.listarCrusosByCategoria, categoria);
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -41,7 +44,7 @@ export class CourseResolver {
     @Query(returns => Course, { nullable: true })
     async buscarCursoID(@Arg("courseId") courseId: number): Promise<Course | undefined> {
         try {
-            const data = await axios.get(endpoint.courses.listarCursoId + "?cursoid=" + courseId.toString());
+            const data = await axios.get(URL + endpoint.courses.listarCursoId + "?cursoid=" + courseId.toString());
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -67,8 +70,8 @@ export class CourseResolver {
                 },
                 "to":"dflhU2glnkS7Uw9MGsEnpV:APA91bHOFv9BFZGK774Tb76O7mQOWSXuo4hoB4oI5rJE0dCJpPZJJd3BxM0vrDaSQFqWzxHBWD9uk4mzOAa7AlCz7tqfywFg5O8tI9yO8wISbr7sERpDX1ZQltIT8K9jl4wsQhMRUK4I"
             };
-            const data = await axios.post(endpoint.courses.createCurso, curso);
-            const data1 = await axios.post(endpoint.notificacion.notificacion, requestBody, config);
+            const data = await axios.post(URL + endpoint.courses.createCurso, curso);
+            const data1 = await axios.post(URL + endpoint.notificacion.notificacion, requestBody, config);
             //const data2 = await axios.get(endpoint.users.lista);
             logger.debug(data);
             return curso;
@@ -82,7 +85,7 @@ export class CourseResolver {
     @Mutation(returns => Course)
     async updateCurso(@Arg("curso") Course: CourseInput , @Arg("idCurso") idCurso: number): Promise<CourseInput | undefined> {
         try {
-            const data = await axios.post(endpoint.courses.updateCurso, {idCurso:idCurso, nombre:Course.nombre, categoria:Course.categoria, duracion:Course.duracion, idProfesor:Course.idProfesor} );
+            const data = await axios.post(URL + endpoint.courses.updateCurso, {idCurso:idCurso, nombre:Course.nombre, categoria:Course.categoria, duracion:Course.duracion, idProfesor:Course.idProfesor} );
             //logger.debug(data);
             return Course;
         } catch (error) {
@@ -95,7 +98,7 @@ export class CourseResolver {
     @Mutation(returns => String, { nullable: true })
     async deleteCurso(@Arg("idCurso") idCurso: number): Promise<String | undefined> {
         try {
-            const data = await axios.delete(endpoint.courses.deleteCursoId + "?cursoid=" + idCurso.toString());
+            const data = await axios.delete(URL + endpoint.courses.deleteCursoId + "?cursoid=" + idCurso.toString());
             //logger.debug(data);
             return data.data;
         } catch (error) {
@@ -111,7 +114,7 @@ export class InscripcionResolver {
     @Query(returns => [Inscripcion], { nullable: true })
     async listarInscripciones(@Args() args: GetInscripcionArgs): Promise<Inscripcion[] | undefined> {
         try {
-            const { data: apiResponse } = await axios.get(endpoint.courses.inscripcion, { params: args });
+            const { data: apiResponse } = await axios.get(URL + endpoint.courses.inscripcion, { params: args });
             return apiResponse;
         } catch (error) {
             ErrorHandler.handle(error);
@@ -128,7 +131,7 @@ export class InscripcionResolver {
             return undefined;
         }
         try {
-            const { data: apiResponse } = await axios.post(endpoint.courses.inscripcion, args);
+            const { data: apiResponse } = await axios.post(URL + endpoint.courses.inscripcion, args);
             return (args as Inscripcion);
         } catch (error) {
             ErrorHandler.handle(error);
@@ -140,7 +143,7 @@ export class InscripcionResolver {
     @Mutation(returns => Inscripcion, { nullable: true })
     async actualizarInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         try {
-            const { data: apiResponse } = await axios.put(endpoint.courses.inscripcion, args);
+            const { data: apiResponse } = await axios.put(URL + endpoint.courses.inscripcion, args);
             return (args as Inscripcion);
         } catch (error) {
             ErrorHandler.handle(error);
@@ -152,7 +155,7 @@ export class InscripcionResolver {
     @Mutation(returns => Inscripcion, { nullable: true })
     async eliminarInscripcion(@Args() args: InscripcionArgs): Promise<Inscripcion | undefined> {
         try {
-            const { data: apiResponse } = await axios.delete(endpoint.courses.inscripcion, { data: args });
+            const { data: apiResponse } = await axios.delete(URL + endpoint.courses.inscripcion, { data: args });
             return (args as Inscripcion);
         } catch (error) {
             ErrorHandler.handle(error);
@@ -162,7 +165,7 @@ export class InscripcionResolver {
 
     private async obtenerUsuario(userId: number): Promise<any | null> {
         try {
-            const { data: apiResponse } = await axios.get(endpoint.users.busqueda + userId);
+            const { data: apiResponse } = await axios.get(URL + endpoint.users.busqueda + userId);
             return apiResponse;
         } catch (error) {
             return null;
@@ -174,7 +177,7 @@ export class InscripcionResolver {
             cursoid: idCurso,
         }
         try {
-            const { data: apiResponse } = await axios.get(endpoint.courses.listarCursoId, { params: params });
+            const { data: apiResponse } = await axios.get(URL + endpoint.courses.listarCursoId, { params: params });
             return apiResponse;
         } catch (error) {
             return null;
